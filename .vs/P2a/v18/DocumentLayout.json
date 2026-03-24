@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B6DF4F-5FFD-E500-F8BC-FA46C1309A7E}|Assembly-CSharp.csproj|c:\\users\\carma\\onedrive - the ohio state university\\spring 2026 classes\\accad 6003\\p2a\\assets\\scripts\\petbehavior.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3B6DF4F-5FFD-E500-F8BC-FA46C1309A7E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\petbehavior.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E3B6DF4F-5FFD-E500-F8BC-FA46C1309A7E}|Assembly-CSharp.csproj|C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\assets\\scripts\\arduinoreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E3B6DF4F-5FFD-E500-F8BC-FA46C1309A7E}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\arduinoreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PetBehavior.cs",
+              "DocumentMoniker": "C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\Assets\\Scripts\\PetBehavior.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\PetBehavior.cs",
+              "ToolTip": "C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\Assets\\Scripts\\PetBehavior.cs",
+              "RelativeToolTip": "Assets\\Scripts\\PetBehavior.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAIwGMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T12:29:16.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArduinoReader.cs",
+              "DocumentMoniker": "C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\Assets\\Scripts\\ArduinoReader.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\ArduinoReader.cs",
+              "ToolTip": "C:\\Users\\carma\\OneDrive - The Ohio State University\\Spring 2026 Classes\\ACCAD 6003\\P2a\\Assets\\Scripts\\ArduinoReader.cs",
+              "RelativeToolTip": "Assets\\Scripts\\ArduinoReader.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAwwHkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T12:29:13.41Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
