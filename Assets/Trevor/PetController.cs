@@ -1,0 +1,140 @@
+using System.Collections;
+using UnityEngine;
+
+[RequireComponent(typeof(PetStats))]
+public class PetController : MonoBehaviour
+{
+    public InputManager inputManager;
+    private PetStats stats;
+
+    // State Machine
+    private enum PetState { Idle, Playing, Cleaning, Feeding }
+    private PetState currentState = PetState.Idle;
+
+    [Header("Animation Settings")]
+    public float jumpHeight = 2f;
+    public float jumpDuration = 0.5f;
+    public float shakeAmount = 0.2f;
+    public float shakeDuration = 0.5f;
+    public float walkSpeed = 2f;
+    public float approachDistance = 2f;
+
+    private Vector3 homePosition;
+    private bool isFeedInputActive = false;
+
+    void Start()
+    {
+        stats = GetComponent<PetStats>();
+        homePosition = transform.position;
+
+        if (inputManager != null)
+        {
+            inputManager.OnPlayAction += HandlePlay;
+            inputManager.OnCleanAction += HandleClean;
+            inputManager.OnFeedAction += HandleFeedState;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (inputManager != null)
+        {
+            inputManager.OnPlayAction -= HandlePlay;
+            inputManager.OnCleanAction -= HandleClean;
+            inputManager.OnFeedAction -= HandleFeedState;
+        }
+    }
+
+    void Update()
+    {
+        // If the pet is idle, and the feed button is held down, start feeding
+        if (currentState == PetState.Idle && isFeedInputActive)
+        {
+            StartCoroutine(FeedRoutine());
+        }
+    }
+
+    // --- Action Handlers ---
+
+    private void HandlePlay()
+    {
+        if (currentState == PetState.Idle) StartCoroutine(PlayRoutine());
+    }
+
+    private void HandleClean()
+    {
+        if (currentState == PetState.Idle) StartCoroutine(CleanRoutine());
+    }
+
+    private void HandleFeedState(bool isActive)
+    {
+        isFeedInputActive = isActive;
+    }
+
+    // --- Coroutine Behaviors (The State Machine) ---
+
+    private IEnumerator PlayRoutine()
+    {
+        currentState = PetState.Playing;
+        stats.BoostHappiness(20f);
+
+        float elapsed = 0f;
+        while (elapsed < jumpDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / jumpDuration;
+            float newY = homePosition.y + Mathf.Sin(t * Mathf.PI) * jumpHeight;
+            transform.position = new Vector3(homePosition.x, newY, homePosition.z);
+            yield return null;
+        }
+
+        transform.position = homePosition;
+        currentState = PetState.Idle;
+    }
+
+    private IEnumerator CleanRoutine()
+    {
+        currentState = PetState.Cleaning;
+        stats.BoostCleanliness(25f);
+
+        float elapsed = 0f;
+        while (elapsed < shakeDuration)
+        {
+            elapsed += Time.deltaTime;
+            Vector3 offset = Random.insideUnitSphere * shakeAmount;
+            transform.position = new Vector3(homePosition.x + offset.x, homePosition.y, homePosition.z + offset.z);
+            yield return null;
+        }
+
+        transform.position = homePosition;
+        currentState = PetState.Idle;
+    }
+
+    private IEnumerator FeedRoutine()
+    {
+        currentState = PetState.Feeding;
+        stats.BoostLove(30f);
+
+        Vector3 cameraPos = Camera.main != null ? Camera.main.transform.position : homePosition;
+        Vector3 dir = (cameraPos - homePosition).normalized;
+        Vector3 targetPos = homePosition + dir * approachDistance;
+        targetPos.y = homePosition.y; // Keep Y level
+
+        // Walk towards camera as long as input is held
+        while (isFeedInputActive)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, walkSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        // Input released, walk back home
+        while (Vector3.Distance(transform.position, homePosition) > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, homePosition, walkSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        transform.position = homePosition;
+        currentState = PetState.Idle;
+    }
+}

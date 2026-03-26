@@ -5,7 +5,9 @@ using System.Threading;
 
 public class ArduinoReader : MonoBehaviour
 {
-    public string portName = "COM4"; // your Arduino port
+    [Header("Hardware Settings")]
+    public bool enableArduino = false; // <-- UNCHECK THIS IN UNITY TO USE KEYBOARD ONLY
+    public string portName = "COM4";
     public int baudRate = 9600;
 
     private SerialPort serialPort;
@@ -26,11 +28,18 @@ public class ArduinoReader : MonoBehaviour
     public bool soundDetected = false;
 
     [HideInInspector]
-    private bool _soundTriggered = false;  // internal
+    private bool _soundTriggered = false;
     public bool soundTriggered { get { return _soundTriggered; } }
 
     void Start()
     {
+        // 🛑 If we are testing with just the keyboard, ignore the Arduino entirely
+        if (!enableArduino)
+        {
+            Debug.Log("🔌 Arduino Disabled: Running in Keyboard-Only Mode.");
+            return;
+        }
+
         try
         {
             serialPort = new SerialPort(portName, baudRate);
@@ -74,6 +83,8 @@ public class ArduinoReader : MonoBehaviour
 
     void Update()
     {
+        if (!enableArduino) return; // Skip updating if Arduino is disabled
+
         while (true)
         {
             string line = null;
@@ -85,7 +96,6 @@ public class ArduinoReader : MonoBehaviour
 
             if (string.IsNullOrEmpty(line)) continue;
 
-            // ----- Buttons -----
             switch (line)
             {
                 case "MIC_BTN_PRESS": micPressed = true; break;
@@ -97,10 +107,10 @@ public class ArduinoReader : MonoBehaviour
                 case "TILT_ON": isTilted = true; break;
                 case "TILT_OFF": isTilted = false; break;
                 case "SOUND":
-                    _soundTriggered = true; // trigger once
+                    _soundTriggered = true;
                     Debug.Log("Sound detected trigger set");
                     break;
-            default:
+                default:
                     if (line.StartsWith("DIST|"))
                     {
                         string valueStr = line.Substring(5);
@@ -112,12 +122,6 @@ public class ArduinoReader : MonoBehaviour
                             float sum = 0f;
                             foreach (float v in distanceBuffer) sum += v;
                             smoothedDistance = sum / distanceBuffer.Count;
-
-                            Debug.Log($"Distance: {rawDistance} | Smoothed: {smoothedDistance}");
-                        }
-                        else if (valueStr == "OUT_OF_RANGE")
-                        {
-                            Debug.Log("Distance: OUT_OF_RANGE");
                         }
                     }
                     break;
@@ -125,7 +129,6 @@ public class ArduinoReader : MonoBehaviour
         }
     }
 
-    // Method for PetBehavior to consume the sound trigger
     public void ConsumeSoundTrigger()
     {
         _soundTriggered = false;
@@ -135,7 +138,6 @@ public class ArduinoReader : MonoBehaviour
     {
         threadRunning = false;
         if (serialThread != null && serialThread.IsAlive) serialThread.Join();
-
         if (serialPort != null && serialPort.IsOpen) serialPort.Close();
     }
 }
