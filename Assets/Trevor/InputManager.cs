@@ -21,18 +21,18 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("🛠️ InputManager Awake() is running...");
+        Debug.Log("InputManager Awake() is running...");
 
         if (inputAsset == null)
         {
-            Debug.LogError("🛑 ERROR: The Input Asset slot is empty in the Inspector!");
+            Debug.LogError("ERROR: The Input Asset slot is empty in the Inspector!");
             return;
         }
 
         playerMap = inputAsset.FindActionMap("Player");
         if (playerMap == null)
         {
-            Debug.LogError("🛑 ERROR: Could not find an Action Map named 'Player'!");
+            Debug.LogError("ERROR: Could not find an Action Map named 'Player'!");
             return;
         }
 
@@ -49,8 +49,8 @@ public class InputManager : MonoBehaviour
             Debug.Log("🟢 Input Manager is ALIVE and listening for keys!");
         }
 
-        if (playInput != null) playInput.performed += ctx => { Debug.Log("⌨️ PLAY triggered!"); OnPlayAction?.Invoke(); };
-        if (cleanInput != null) cleanInput.performed += ctx => { Debug.Log("⌨️ CLEAN triggered!"); OnCleanAction?.Invoke(); };
+        if (playInput != null) playInput.performed += ctx => { Debug.Log("PLAY triggered!"); OnPlayAction?.Invoke(); };
+        if (cleanInput != null) cleanInput.performed += ctx => { Debug.Log("CLEAN triggered!"); OnCleanAction?.Invoke(); };
     }
 
     void OnDisable()
@@ -60,10 +60,6 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current == null) Debug.LogWarning("🚨 Unity cannot see any keyboard plugged into this computer!");
-        else if (Keyboard.current.qKey.wasPressedThisFrame) Debug.Log("🚨 RAW KEYBOARD DETECTED Q! The .inputactions file is the problem.");
-        // -------------------------------------
-
         PollArduinoInputs();
         PollContinuousInputs();
     }
