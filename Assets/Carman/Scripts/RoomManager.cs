@@ -5,20 +5,20 @@ public class RoomManager : SelectionList
 {
     public static RoomManager Instance;
 
-    [Header("Assign all rooms in scene")]
+    [Header("Assign all rooms in the scene for this building")]
     [SerializeField] private List<Room> roomsInScene;
 
     [SerializeField] private Highlightable backButton;
-
 
     void Awake()
     {
         Instance = this;
 
+        // Populate the SelectionList items from rooms in the scene
         items.Clear();
-        foreach (var b in roomsInScene)
+        foreach (var room in roomsInScene)
         {
-            var highlightable = b.GetComponent<Highlightable>();
+            var highlightable = room.GetComponent<Highlightable>();
             if (highlightable != null)
                 items.Add(highlightable);
         }
@@ -27,38 +27,50 @@ public class RoomManager : SelectionList
         currentIndex = 0;
     }
 
-    public void PutPet(GameObject pet)
+    public void PlacePetInRoom(Room room, GameObject petPrefab)
     {
-        GameManager.Instance.currentRoom.PlacePet(pet);
+        if (!room.IsOccupied())
+        {
+            room.PlacePet(petPrefab);
+        }
     }
 
     protected override void OnItemSelected(int index)
     {
-        // If Back button selected
+        if (index < 0 || index > roomsInScene.Count) return;
+
+        Debug.Log($"Selected index: {index}");
         if (index == roomsInScene.Count)
         {
-            GameManager.Instance.GoBack();
+            // Back button selected
+            GameManager.Instance.SetState(GameManager.GameState.BuildingSelection);
             return;
         }
-
-        // Otherwise it's a room
-        var room = roomsInScene[index];
-        GameManager.Instance.currentRoom = room;
-
-        if (GameManager.Instance.IsPlacingPet)
+        else
         {
-            PutPet(GameManager.Instance.currentPurchasedPet);
-            GameManager.Instance.IsPlacingPet = false;
-        }
+            Room selectedRoom = roomsInScene[index];
 
-        GameManager.Instance.SetState(GameManager.GameState.RoomSelected);
+            // Store selected room in GameManager
+            GameManager.Instance.currentRoomID = selectedRoom.RoomID;
+
+            if (GameManager.Instance.IsPlacingPet)
+            {
+                PlacePetInRoom(selectedRoom, GameManager.Instance.currentPurchasedPetPrefab);
+                GameManager.Instance.IsPlacingPet = false;
+            }
+
+            GameManager.Instance.SetState(GameManager.GameState.RoomSelected);
+        }
     }
 
     public void LoadPets()
     {
         foreach (var room in roomsInScene)
         {
-            room.SpawnPet();
+            if (GameManager.Instance.roomPetPrefabs.ContainsKey(room.RoomID))
+            {
+                room.SpawnPet(GameManager.Instance.roomPetPrefabs[room.RoomID]);
+            }
         }
     }
 }

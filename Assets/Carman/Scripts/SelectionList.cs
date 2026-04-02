@@ -17,7 +17,7 @@ public class SelectionList : MonoBehaviour
         currentIndex--;
         ClampIndex();
         UpdateHighlight();
-        Debug.Log("Moved to:  "+ items[currentIndex].name);
+        Debug.Log("Moved left to:  "+ items[currentIndex].name);
     }
 
     public void MoveRight()
@@ -25,6 +25,7 @@ public class SelectionList : MonoBehaviour
         currentIndex++;
         ClampIndex();
         UpdateHighlight();
+        Debug.Log("Moved right to:  " + items[currentIndex].name);
     }
 
     public void Confirm()

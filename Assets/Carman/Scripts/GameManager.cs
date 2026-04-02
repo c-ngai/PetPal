@@ -23,25 +23,28 @@ public class GameManager : MonoBehaviour
     public bool IsPlacingPet;
 
     public SelectionList currentList;
-    public Room currentRoom;
-    public Building currentBuilding;
-    public GameObject currentPurchasedPet;
 
+    // IDs instead of scene objects
+    public string currentRoomID;
+    public string currentBuildingID;
+
+    public GameObject currentPurchasedPetPrefab;
+
+    // Persistent mapping of roomID -> pet prefab
     public Dictionary<string, GameObject> roomPetPrefabs = new Dictionary<string, GameObject>();
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // Prevent duplicate
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject); // Persist between scenes
+        DontDestroyOnLoad(gameObject);
 
         PreviousState = new Stack<GameState>();
-
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         SetState(GameState.BuildingSelection);
@@ -56,34 +59,40 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.RoomSelection:
                 currentList = RoomManager.Instance;
-                RoomManager.Instance.LoadPets();
                 break;
             case GameState.RoomSelected:
-                currentRoom.SpawnPet();
+                currentList = GamePlayManager.Instance;
                 break;
+
             case GameState.PetPurchasing:
                 currentList = ShopManager.Instance;
                 break;
+
             default:
                 currentList = null;
                 break;
         }
-
-        Debug.Log("SelectionList set to: " + currentList);
     }
 
     public void SetState(GameState newState)
     {
         if (CurrentState != newState)
-        {
             PreviousState.Push(CurrentState);
-        }
 
         CurrentState = newState;
-
         Debug.Log("Game State changed to: " + newState);
 
         LoadSceneForState(newState);
+    }
+
+    public void GoBack()
+    {
+        if (PreviousState.Count > 0)
+        {
+            GameState prev = PreviousState.Pop();
+            CurrentState = prev;
+            LoadSceneForState(prev);
+        }
     }
 
     public bool IsActionMode()
@@ -93,22 +102,6 @@ public class GameManager : MonoBehaviour
                CurrentState == GameState.CleanMode;
     }
 
-    public void GoBack()
-    {
-        if (PreviousState.Count > 0)
-        {
-            GameState prev = PreviousState.Pop();
-            Debug.Log("Going back to: " + prev);
-
-            CurrentState = prev;
-
-            LoadSceneForState(prev);
-        }
-        else
-        {
-            Debug.Log("No previous state.");
-        }
-    }
 
     void LoadSceneForState(GameState state)
     {
@@ -119,17 +112,17 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.RoomSelection:
-                SceneManager.LoadScene(currentBuilding.name);
+                SceneManager.LoadScene(currentBuildingID);
                 break;
 
             case GameState.RoomSelected:
             case GameState.FeedMode:
             case GameState.CleanMode:
-                SceneManager.LoadScene(currentRoom.name);
+                SceneManager.LoadScene(currentRoomID);
                 break;
 
             case GameState.PetPurchasing:
-                SceneManager.LoadScene("ShopScene");
+                SceneManager.LoadScene("ShopBuilding");
                 break;
 
             case GameState.PlayMode:
@@ -138,5 +131,4 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-
 }

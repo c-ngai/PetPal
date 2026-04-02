@@ -9,8 +9,15 @@ public class Highlightable : MonoBehaviour
     [SerializeField] private Color outlineColor = new Color(0f, 0f, 0f, .65f); 
     [SerializeField] private float outlineScale = 1.08f;
 
+    [SerializeField] private bool useScaleHighlight = false;
+    [SerializeField] private float highlightScale = 1.1f;
+    private Vector3 originalScale;
+
     void Awake()
     {
+
+        originalScale = transform.localScale;
+
         sr = GetComponent<SpriteRenderer>();
 
         GameObject outline = new GameObject("Outline");
@@ -30,11 +37,17 @@ public class Highlightable : MonoBehaviour
         outlineSR.sortingOrder = sr.sortingOrder;
 
         outline.SetActive(false);
+
     }
 
     public void SetHighlight(bool highlighted)
     {
         outlineSR.gameObject.SetActive(highlighted);
+
+        if (useScaleHighlight)
+        {
+            transform.localScale = highlighted ? originalScale * highlightScale : originalScale;
+        }
     }
 
     void LateUpdate()

@@ -24,14 +24,15 @@ public class BuildingManager : SelectionList
         currentIndex = 0;
     }
 
-
     protected override void OnItemSelected(int index)
     {
-        var building = buildingsInScene[index];
+        Building selectedBuilding = buildingsInScene[index];
 
-        GameManager.Instance.currentBuilding = building;
+        // Store only the ID in GameManager
+        GameManager.Instance.currentBuildingID = selectedBuilding.BuildingID;
 
-        if (building.buildingType == Building.BuildingType.Residential)
+        // Determine next state
+        if (selectedBuilding.buildingType == Building.BuildingType.Residential)
         {
             GameManager.Instance.SetState(GameManager.GameState.RoomSelection);
         }
@@ -40,6 +41,6 @@ public class BuildingManager : SelectionList
             GameManager.Instance.SetState(GameManager.GameState.PetPurchasing);
         }
 
-        Debug.Log("Building selected: " + building.name);
+        Debug.Log("Building selected: " + selectedBuilding.name + " (ID: " + selectedBuilding.BuildingID + ")");
     }
 }
