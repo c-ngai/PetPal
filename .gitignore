@@ -61,9 +61,6 @@ sysinfo.txt
 /UserSettings/
 EditorUserSettings.asset
 
-# Build settings (optional — team dependent)
-EditorBuildSettings.asset
-
 # Builds
 *.apk
 *.aab

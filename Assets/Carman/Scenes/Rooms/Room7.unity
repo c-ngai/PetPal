@@ -176,6 +176,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: RoomID
+      value: Room7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: BuildingID
+      value: CakeBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: buttons.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -195,9 +203,13 @@ PrefabInstance:
       propertyPath: 'buttons.Array.data[3]'
       value: 
       objectReference: {fileID: 1144029607}
+    - target: {fileID: 7233826327928368558, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 751341674e71ba948a3aeb296f42e883, type: 3}
     - target: {fileID: 7335778065711848128, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_Name
-      value: Room1
+      value: Room7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1215,7 +1227,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6cb1288c90a51484881a200d3ca4713e, type: 2}
+  - {fileID: 2100000, guid: b998ce91d8d8d4d41ad4aac98f7dd491, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

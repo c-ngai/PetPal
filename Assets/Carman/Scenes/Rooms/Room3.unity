@@ -137,7 +137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.36
+      value: -0.87
       objectReference: {fileID: 0}
     - target: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -176,6 +176,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: RoomID
+      value: Room3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: BuildingID
+      value: StrawberryBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: buttons.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -195,9 +203,13 @@ PrefabInstance:
       propertyPath: 'buttons.Array.data[3]'
       value: 
       objectReference: {fileID: 1144029607}
+    - target: {fileID: 7233826327928368558, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e8d492a12fdc94c46aa0501349c034e6, type: 3}
     - target: {fileID: 7335778065711848128, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_Name
-      value: Room1
+      value: Room3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

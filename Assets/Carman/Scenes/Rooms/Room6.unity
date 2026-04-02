@@ -176,6 +176,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: RoomID
+      value: Room6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: BuildingID
+      value: AquariumBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: buttons.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -197,7 +205,7 @@ PrefabInstance:
       objectReference: {fileID: 1144029607}
     - target: {fileID: 7335778065711848128, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_Name
-      value: Room1
+      value: Room6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1215,7 +1223,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6cb1288c90a51484881a200d3ca4713e, type: 2}
+  - {fileID: 2100000, guid: 003fd286e78881442862f25c78dfee4e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
