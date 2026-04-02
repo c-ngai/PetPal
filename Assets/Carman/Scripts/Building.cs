@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -10,5 +9,4 @@ public class Building : MonoBehaviour
     }
 
     public BuildingType buildingType;
-    public List<Room> rooms = new List<Room>();
 }

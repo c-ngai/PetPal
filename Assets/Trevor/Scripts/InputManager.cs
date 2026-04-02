@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance;
+
     [Header("Hardware Connections")]
     public ArduinoReader arduinoReader;
     public InputActionAsset inputAsset;
@@ -25,6 +27,14 @@ public class InputManager : MonoBehaviour
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Prevent duplicate
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Persist between scenes
+
         Debug.Log("InputManager Awake() is running...");
 
         if (inputAsset == null)

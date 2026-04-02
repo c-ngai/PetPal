@@ -5,7 +5,7 @@ public class SelectionList : MonoBehaviour
 {
     public List<Highlightable> items = new List<Highlightable>();
 
-    private int currentIndex = 0;
+    public int currentIndex = 0;
 
     void Start()
     {
@@ -44,7 +44,7 @@ public class SelectionList : MonoBehaviour
         currentIndex = Mathf.Clamp(currentIndex, 0, items.Count - 1);
     }
 
-    private void UpdateHighlight()
+    public void UpdateHighlight()
     {
         for (int i = 0; i < items.Count; i++)
         {

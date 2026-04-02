@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     {
         BuildingSelection,
         RoomSelection,
-        PetPlacement,
+        RoomSelected,
         ActionMode,
         PetPurchasing,
         PlayMode,
@@ -20,10 +20,14 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState;
     public Stack<GameState> PreviousState;
+    public bool IsPlacingPet;
 
     public SelectionList currentList;
     public Room currentRoom;
     public Building currentBuilding;
+    public GameObject currentPurchasedPet;
+
+    public Dictionary<string, GameObject> roomPetPrefabs = new Dictionary<string, GameObject>();
 
     void Awake()
     {
@@ -48,11 +52,14 @@ public class GameManager : MonoBehaviour
         switch (CurrentState)
         {
             case GameState.BuildingSelection:
-            case GameState.PetPlacement:
                 currentList = BuildingManager.Instance;
                 break;
             case GameState.RoomSelection:
                 currentList = RoomManager.Instance;
+                RoomManager.Instance.LoadPets();
+                break;
+            case GameState.RoomSelected:
+                currentRoom.SpawnPet();
                 break;
             case GameState.PetPurchasing:
                 currentList = ShopManager.Instance;
@@ -108,22 +115,25 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case GameState.BuildingSelection:
-            case GameState.PetPlacement:
                 SceneManager.LoadScene("BuildingScene");
                 break;
 
             case GameState.RoomSelection:
-                SceneManager.LoadScene("RoomScene");
-                RoomManager.Instance.LoadRooms(currentBuilding);
+                SceneManager.LoadScene(currentBuilding.name);
+                break;
+
+            case GameState.RoomSelected:
+            case GameState.FeedMode:
+            case GameState.CleanMode:
+                SceneManager.LoadScene(currentRoom.name);
                 break;
 
             case GameState.PetPurchasing:
                 SceneManager.LoadScene("ShopScene");
                 break;
+
             case GameState.PlayMode:
-            case GameState.FeedMode:
-            case GameState.CleanMode:
-                SceneManager.LoadScene("GameplayScene");
+                SceneManager.LoadScene("PlayScene");
                 currentList = null;
                 break;
         }

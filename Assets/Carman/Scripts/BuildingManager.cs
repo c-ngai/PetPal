@@ -20,6 +20,8 @@ public class BuildingManager : SelectionList
             if (highlightable != null)
                 items.Add(highlightable);
         }
+
+        currentIndex = 0;
     }
 
 
