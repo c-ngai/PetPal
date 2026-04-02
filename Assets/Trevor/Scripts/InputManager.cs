@@ -12,6 +12,10 @@ public class InputManager : MonoBehaviour
     public event Action OnCleanAction;
     public event Action<bool> OnFeedAction;
 
+    public event Action OnLeftSelect;
+    public event Action OnRightSelect;
+    public event Action OnConfirmSelect;
+
     private InputActionMap playerMap;
     private InputAction playInput;
     private InputAction cleanInput;
@@ -49,8 +53,9 @@ public class InputManager : MonoBehaviour
             Debug.Log("🟢 Input Manager is ALIVE and listening for keys!");
         }
 
-        if (playInput != null) playInput.performed += ctx => { Debug.Log("PLAY triggered!"); OnPlayAction?.Invoke(); };
-        if (cleanInput != null) cleanInput.performed += ctx => { Debug.Log("CLEAN triggered!"); OnCleanAction?.Invoke(); };
+        if (playInput != null) playInput.performed += ctx => { HandlePlayPressed(); };
+        if (cleanInput != null) cleanInput.performed += ctx => { HandleCleanPressed(); };
+        if (feedInput != null) feedInput.performed += ctx => { HandleFeedPressed(); };
     }
 
     void OnDisable()
@@ -71,13 +76,13 @@ public class InputManager : MonoBehaviour
         bool currentTilt = arduinoReader.isTilted && arduinoReader.tiltBtnPressed;
         if (currentTilt && !previousArduinoTilt)
         {
-            OnPlayAction?.Invoke();
+            HandlePlayPressed();
         }
         previousArduinoTilt = currentTilt;
 
         if (arduinoReader.soundTriggered)
         {
-            OnCleanAction?.Invoke();
+            HandleCleanPressed();
             arduinoReader.ConsumeSoundTrigger();
         }
     }
@@ -93,5 +98,42 @@ public class InputManager : MonoBehaviour
                           arduinoReader.smoothedDistance <= 10f;
 
         OnFeedAction?.Invoke(kbFeeding || ardFeeding);
+    }
+
+    private void HandlePlayPressed()
+    {
+        if (GameManager.Instance.IsActionMode())
+        {
+            Debug.Log("PLAY triggered!");
+            OnPlayAction?.Invoke();
+        }
+        else
+        {
+            Debug.Log("LEFT selection");
+            OnLeftSelect?.Invoke();
+        }
+    }
+
+    private void HandleCleanPressed()
+    {
+        if (GameManager.Instance.IsActionMode())
+        {
+            Debug.Log("CLEAN triggered!");
+            OnCleanAction?.Invoke();
+        }
+        else
+        {
+            Debug.Log("RIGHT selection");
+            OnRightSelect?.Invoke();
+        }
+    }
+
+    private void HandleFeedPressed()
+    {
+        if (!GameManager.Instance.IsActionMode())
+        {
+            Debug.Log("CONFIRM selection");
+            OnConfirmSelect?.Invoke();
+        }
     }
 }

@@ -21,8 +21,13 @@ public class ArduinoReader : MonoBehaviour
     public float smoothedDistance = 0f;
 
     [Header("Sensor States")]
+    // left button
     public bool micPressed = false;
+
+    // right button 
     public bool distPressed = false;
+
+    // middle button
     public bool tiltBtnPressed = false;
     public bool isTilted = false;
     public bool soundDetected = false;
