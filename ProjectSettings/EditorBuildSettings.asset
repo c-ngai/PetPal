@@ -47,6 +47,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Carman/Scenes/Rooms/Room9.unity
     guid: ae76ca1c95ccab24cb69b5c7ec1e7e62
+  - enabled: 1
+    path: Assets/Carman/Scenes/PlayScene.unity
+    guid: 8d40361117432ed4f814309f9090f3eb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 79af5b5af16d479498558b83d4733ab6, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -5,19 +5,20 @@ public class ShopManager : SelectionList
 {
     public static ShopManager Instance;
 
-    [Header("Assign all pets in scene")]
-    [SerializeField] private List<GameObject> pets;
+    [Header("Scene objects (eggs shown in shop)")]
+    [SerializeField] private List<GameObject> shopDisplayPets;
+
+    [Header("Actual pet prefabs (assets)")]
+    [SerializeField] private List<GameObject> petPrefabs;
 
     [SerializeField] private Highlightable backButton;
-
 
     void Awake()
     {
         Instance = this;
 
-        // Populate the SelectionList items from rooms in the scene
         items.Clear();
-        foreach (var pet in pets)
+        foreach (var pet in shopDisplayPets)
         {
             var highlightable = pet.GetComponent<Highlightable>();
             if (highlightable != null)
@@ -28,16 +29,28 @@ public class ShopManager : SelectionList
         currentIndex = 0;
     }
 
+    void Start()
+    {
+        foreach (var petObj in shopDisplayPets)
+        {
+            Pet pet = petObj.GetComponent<Pet>();
+            if (pet != null)
+            {
+                pet.SetStage(Pet.PetStage.Egg);
+            }
+        }
+
+        UpdateHighlight();
+    }
 
     protected override void OnItemSelected(int index)
     {
-        if (index == pets.Count)
+        if (index == shopDisplayPets.Count)
         {
             GameManager.Instance.GoBack();
         }
         else
         {
-            Debug.Log("Room selected: " + index);
             BuyPet(index);
             GameManager.Instance.IsPlacingPet = true;
             GameManager.Instance.SetState(GameManager.GameState.BuildingSelection);
@@ -46,6 +59,6 @@ public class ShopManager : SelectionList
 
     public void BuyPet(int index)
     {
-        //GameManager.Instance.currentPurchasedPet = pets[index];
+        GameManager.Instance.currentPurchasedPetPrefab = petPrefabs[index];
     }
 }

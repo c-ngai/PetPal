@@ -67,10 +67,7 @@ public class RoomManager : SelectionList
     {
         foreach (var room in roomsInScene)
         {
-            if (GameManager.Instance.roomPetPrefabs.ContainsKey(room.RoomID))
-            {
-                room.SpawnPet(GameManager.Instance.roomPetPrefabs[room.RoomID]);
-            }
+            room.SpawnPet();
         }
     }
 }

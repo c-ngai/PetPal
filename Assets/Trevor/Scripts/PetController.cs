@@ -26,6 +26,11 @@ public class PetController : MonoBehaviour
     {
         stats = GetComponent<PetStats>();
         homePosition = transform.position;
+    }
+
+    public void Initialize(InputManager manager)
+    {
+        inputManager = manager;
 
         if (inputManager != null)
         {

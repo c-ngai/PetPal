@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject currentPurchasedPetPrefab;
 
-    // Persistent mapping of roomID -> pet prefab
-    public Dictionary<string, GameObject> roomPetPrefabs = new Dictionary<string, GameObject>();
+    // Persistent mapping of roomID -> pet
+    public Dictionary<string, PetData> roomPets = new Dictionary<string, PetData>();
 
     void Awake()
     {
@@ -59,9 +59,19 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.RoomSelection:
                 currentList = RoomManager.Instance;
+                RoomManager.Instance.LoadPets();
                 break;
             case GameState.RoomSelected:
                 currentList = GamePlayManager.Instance;
+                Room[] rooms = FindObjectsByType<Room>(FindObjectsSortMode.None);
+                foreach (Room room in rooms)
+                {
+                    if (room.RoomID == currentRoomID)
+                    {
+                        room.SpawnPet();
+                        break;
+                    }
+                }
                 break;
 
             case GameState.PetPurchasing:
@@ -116,9 +126,11 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.RoomSelected:
+                SceneManager.LoadScene(currentRoomID);
+                break;
             case GameState.FeedMode:
             case GameState.CleanMode:
-                SceneManager.LoadScene(currentRoomID);
+                // stay in the same scene, just change mode
                 break;
 
             case GameState.PetPurchasing:

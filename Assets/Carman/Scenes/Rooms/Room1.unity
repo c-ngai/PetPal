@@ -176,6 +176,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: RoomID
+      value: Room1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: BuildingID
+      value: StrawberryBuilding
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364773990187596024, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: buttons.Array.size
       value: 4
       objectReference: {fileID: 0}
