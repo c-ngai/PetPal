@@ -26,21 +26,31 @@ public class GamePlayManager : SelectionList
     {
         GameObject selectedButton = buttons[index];
 
+        Room room = FindFirstObjectByType<Room>();
+
+        bool hasPet = room != null && room.IsOccupied();
 
         switch (selectedButton.name)
         {
             case "Back":
                 GameManager.Instance.GoBack();
                 break;
+
             case "Play":
+                if (!hasPet) return;
                 GameManager.Instance.SetState(GameManager.GameState.PlayMode);
                 break;
+
             case "Feed":
+                if (!hasPet) return;
                 GameManager.Instance.SetState(GameManager.GameState.FeedMode);
                 break;
+
             case "Clean":
+                if (!hasPet) return;
                 GameManager.Instance.SetState(GameManager.GameState.CleanMode);
                 break;
+
             default:
                 Debug.LogWarning("Unhandled button: " + selectedButton.name);
                 break;

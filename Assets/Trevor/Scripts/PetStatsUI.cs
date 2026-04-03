@@ -28,6 +28,10 @@ public class PetStatsUI : MonoBehaviour
     private List<GameObject> cleanlinessChunks = new List<GameObject>();
     private List<GameObject> loveChunks = new List<GameObject>();
 
+    [Header("UI Root")]
+    [SerializeField] private GameObject statsUIRoot;
+    private bool barsBuilt = false;
+
     void Start()
     {
         AssignPetInRoom();
@@ -39,19 +43,42 @@ public class PetStatsUI : MonoBehaviour
 
         if (currentPet != null)
         {
-            // Build the bars and pass in the specific color for each stat
-            BuildStatBar(currentPet.maxHunger, hungerContainer, hungerChunks, hungerColor);
-            BuildStatBar(currentPet.maxCleanliness, cleanlinessContainer, cleanlinessChunks, cleanlinessColor);
-            BuildStatBar(currentPet.maxLove, loveContainer, loveChunks, loveColor);
+            statsUIRoot.SetActive(true);
+
+            if (!barsBuilt)
+            {
+                BuildStatBar(currentPet.maxHunger, hungerContainer, hungerChunks, hungerColor);
+                BuildStatBar(currentPet.maxCleanliness, cleanlinessContainer, cleanlinessChunks, cleanlinessColor);
+                BuildStatBar(currentPet.maxLove, loveContainer, loveChunks, loveColor);
+                barsBuilt = true;
+            }
         }
         else
         {
-            Debug.LogWarning("No PetStats found in the scene!");
+            statsUIRoot.SetActive(false);
+            currentPet = null;
+            barsBuilt = false;
+
+            hungerChunks.Clear();
+            cleanlinessChunks.Clear();
+            loveChunks.Clear();
+
+            Debug.Log("No pet in room — hiding stats UI");
         }
     }
 
     void Update()
     {
+        if (currentPet == null)
+        {
+            PetStats foundPet = Object.FindFirstObjectByType<PetStats>();
+            if (foundPet != null)
+            {
+                AssignPetInRoom();
+                return;
+            }
+        }
+
         if (currentPet != null)
         {
             UpdateStatBar(currentPet.hunger, hungerChunks);
@@ -94,7 +121,8 @@ public class PetStatsUI : MonoBehaviour
 
         for (int i = 0; i < chunkList.Count; i++)
         {
-            chunkList[i].SetActive(i < activeChunks);
+            if (chunkList[i] != null)
+                chunkList[i].SetActive(i < activeChunks);
         }
     }
 }
