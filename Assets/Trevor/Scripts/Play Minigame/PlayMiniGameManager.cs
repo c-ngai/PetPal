@@ -24,11 +24,17 @@ public class PlayMiniGameManager : MonoBehaviour
     private float score = 0f;
     private bool gameActive = false;
 
+    void OnEnable()
+    {
+        Time.timeScale = 1f;
+    }
+
     void Start()
     {
         currentSpeed = initialSpeed;
         StartCoroutine(StartGameRoutine());
     }
+
 
     IEnumerator StartGameRoutine()
     {
@@ -81,8 +87,19 @@ public class PlayMiniGameManager : MonoBehaviour
 
     public void EndGame()
     {
+        if (!gameActive) return;
+
         gameActive = false;
         gameOverPanel.SetActive(true);
-        Time.timeScale = 0f; // Pause game
+
+        StartCoroutine(EndGameRoutine());
+    }
+
+    IEnumerator EndGameRoutine()
+    {
+        yield return new WaitForSecondsRealtime(2f); // works even if timescale = 0
+
+        Time.timeScale = 1f; // reset before leaving
+        GameManager.Instance.GoBack();
     }
 }

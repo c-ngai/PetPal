@@ -42,14 +42,16 @@ public class GamePlayManager : SelectionList
                 break;
 
             case "Feed":
-                if (!hasPet) return;
-                GameManager.Instance.SetState(GameManager.GameState.FeedMode);
-                break;
+                return; // Temporarily disable feed mode until we have feed mode implemented
+                //if (!hasPet) return;
+                //GameManager.Instance.SetState(GameManager.GameState.FeedMode);
+                //break;
 
             case "Clean":
-                if (!hasPet) return;
-                GameManager.Instance.SetState(GameManager.GameState.CleanMode);
-                break;
+                return; // Temporarily disable feed mode until we have feed mode implemented
+                //if (!hasPet) return;
+                //GameManager.Instance.SetState(GameManager.GameState.CleanMode);
+                //break;
 
             default:
                 Debug.LogWarning("Unhandled button: " + selectedButton.name);
