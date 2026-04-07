@@ -7,7 +7,6 @@ public class PetController : MonoBehaviour
     public InputManager inputManager;
     private PetStats stats;
 
-    // State Machine
     private enum PetState { Idle, Playing, Cleaning, Feeding }
     private PetState currentState = PetState.Idle;
 
@@ -52,22 +51,27 @@ public class PetController : MonoBehaviour
 
     void Update()
     {
-        // If the pet is idle, and the feed button is held down, start feeding
+        // FIX: Gatekeeper to prevent ghost inputs filling stats on load
+        if (GameManager.Instance.CurrentState != GameManager.GameState.FeedMode)
+        {
+            isFeedInputActive = false;
+        }
+
         if (currentState == PetState.Idle && isFeedInputActive)
         {
             StartCoroutine(FeedRoutine());
         }
     }
 
-    // --- Action Handlers ---
-
     private void HandlePlay()
     {
+        if (GameManager.Instance.CurrentState != GameManager.GameState.PlayMode) return;
         if (currentState == PetState.Idle) StartCoroutine(PlayRoutine());
     }
 
     private void HandleClean()
     {
+        if (GameManager.Instance.CurrentState != GameManager.GameState.CleanMode) return;
         if (currentState == PetState.Idle) StartCoroutine(CleanRoutine());
     }
 
@@ -76,12 +80,12 @@ public class PetController : MonoBehaviour
         isFeedInputActive = isActive;
     }
 
-    // --- Coroutine Behaviors (The State Machine) ---
-
     private IEnumerator PlayRoutine()
     {
         currentState = PetState.Playing;
-        stats.BoostHappiness(20f);
+
+        // FIX: Playing boosts Love
+        stats.BoostLove(20f);
 
         float elapsed = 0f;
         while (elapsed < jumpDuration)
@@ -118,21 +122,21 @@ public class PetController : MonoBehaviour
     private IEnumerator FeedRoutine()
     {
         currentState = PetState.Feeding;
-        stats.BoostLove(30f);
+
+        // FIX: Feeding boosts Hunger
+        stats.BoostHunger(30f);
 
         Vector3 cameraPos = Camera.main != null ? Camera.main.transform.position : homePosition;
         Vector3 dir = (cameraPos - homePosition).normalized;
         Vector3 targetPos = homePosition + dir * approachDistance;
-        targetPos.y = homePosition.y; // Keep Y level
+        targetPos.y = homePosition.y;
 
-        // Walk towards camera as long as input is held
         while (isFeedInputActive)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, walkSpeed * Time.deltaTime);
             yield return null;
         }
 
-        // Input released, walk back home
         while (Vector3.Distance(transform.position, homePosition) > 0.01f)
         {
             transform.position = Vector3.MoveTowards(transform.position, homePosition, walkSpeed * Time.deltaTime);

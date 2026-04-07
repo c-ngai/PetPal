@@ -12,14 +12,16 @@ public class Room : MonoBehaviour
     [SerializeField] private Vector3 selectionScale = Vector3.one;
     [SerializeField] private Vector3 roomViewScale = Vector3.one * 2f;
 
+    // FIX 1: Check the persistent data, not just the local visual instance
     public bool IsOccupied()
     {
-        return currentPetInstance != null;
+        if (GameManager.Instance == null) return false;
+        return GameManager.Instance.roomPets.ContainsKey(RoomID);
     }
 
     public void PlacePet(GameObject petPrefab)
     {
-        if (IsOccupied()) return;
+        // We removed the IsOccupied check here because RoomManager already does it before calling this
 
         currentPetInstance = Instantiate(petPrefab, petPosition.position, Quaternion.identity);
         currentPetInstance.transform.SetParent(petPosition);
@@ -35,24 +37,26 @@ public class Room : MonoBehaviour
 
         Pet pet = currentPetInstance.GetComponent<Pet>();
         PetStats stats = currentPetInstance.GetComponent<PetStats>();
+        PetController controller = currentPetInstance.GetComponent<PetController>();
 
         pet.SetStage(Pet.PetStage.Pet); // Hatch when placed
 
-        // Create PetData and save it
-        PetData data = new PetData();
-        data.petPrefab = petPrefab;
-        data.hunger = stats.hunger;
-        data.cleanliness = stats.cleanliness;
-        data.love = stats.love;
-        data.stage = Pet.PetStage.Pet;
+        // FIX 2: We removed the PetData creation here. RoomManager handles the data and timestamp now.
+        // We just need to tell the stats script to wake up and bind to this room.
+        if (stats != null)
+        {
+            stats.Initialize(RoomID);
+        }
 
-        GameManager.Instance.roomPets[RoomID] = data;
+        if (controller != null && InputManager.Instance != null)
+        {
+            controller.Initialize(InputManager.Instance);
+        }
     }
 
     public void SpawnPet()
     {
         if (currentPetInstance != null) return;
-
         if (!GameManager.Instance.roomPets.ContainsKey(RoomID)) return;
 
         PetData data = GameManager.Instance.roomPets[RoomID];
@@ -73,15 +77,20 @@ public class Room : MonoBehaviour
         PetStats stats = currentPetInstance.GetComponent<PetStats>();
         PetController controller = currentPetInstance.GetComponent<PetController>();
 
-        // Load saved data
         pet.SetStage(data.stage);
-        stats.hunger = data.hunger;
-        stats.cleanliness = data.cleanliness;
-        stats.love = data.love;
 
-        controller.Initialize(InputManager.Instance);
+        // FIX 3: Instead of manually setting stats.hunger = data.hunger, we trigger Initialize.
+        // The PetStats script will load the data AND calculate the missed time automatically.
+        if (stats != null)
+        {
+            stats.Initialize(RoomID);
+        }
+
+        if (controller != null && InputManager.Instance != null)
+        {
+            controller.Initialize(InputManager.Instance);
+        }
     }
-
 
     void OnDestroy()
     {

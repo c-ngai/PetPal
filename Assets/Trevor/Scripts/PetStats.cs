@@ -1,4 +1,5 @@
 using UnityEngine;
+using System; // Required for DateTime and TimeSpan
 
 public class PetStats : MonoBehaviour
 {
@@ -12,17 +13,94 @@ public class PetStats : MonoBehaviour
     public float maxCleanliness = 100f;
     public float maxLove = 100f;
 
-    public float depletionRate = 2f;
+    public float depletionRate = 2f; // Depletion per second
+
+    // Track if this is a "real" pet or a shop display pet
+    private bool isInitialized = false;
+    private string myRoomID;
+
+    // The Room will call this right after spawning the pet
+    public void Initialize(string assignedRoomID)
+    {
+        myRoomID = assignedRoomID;
+        isInitialized = true;
+        LoadAndCatchUpStats();
+    }
 
     void Update()
     {
-        // Clamp to the dynamic max values instead of 100f
+        // Don't deplete stats if this is just a display egg in the shop
+        if (!isInitialized) return;
+
+        // Live depletion while the pet is in the active scene
         hunger = Mathf.Clamp(hunger - (depletionRate * Time.deltaTime), 0f, maxHunger);
         cleanliness = Mathf.Clamp(cleanliness - (depletionRate * Time.deltaTime), 0f, maxCleanliness);
         love = Mathf.Clamp(love - (depletionRate * Time.deltaTime), 0f, maxLove);
     }
 
-    public void BoostHappiness(float amount) { hunger = Mathf.Clamp(hunger + amount, 0f, maxHunger); }
+    // Save when the player leaves the room (scene changes or object is destroyed)
+    void OnDestroy()
+    {
+        if (isInitialized) SaveStats();
+    }
+
+    // Save if the player minimizes the game on their phone/PC
+    void OnApplicationPause(bool isPaused)
+    {
+        if (isPaused && isInitialized) SaveStats();
+    }
+
+    // Save if the player force-closes the game
+    void OnApplicationQuit()
+    {
+        if (isInitialized) SaveStats();
+    }
+
+    private void LoadAndCatchUpStats()
+    {
+        if (GameManager.Instance == null) return;
+
+        // Use MY ID, not the global GameManager ID
+        if (GameManager.Instance.roomPets.TryGetValue(myRoomID, out PetData data))
+        {
+            // Fallback for brand new pets to prevent massive depletion
+            if (data.lastSavedTime == 0)
+            {
+                data.lastSavedTime = DateTime.UtcNow.Ticks;
+            }
+
+            // 1. Calculate the exact time away
+            DateTime lastSaved = new DateTime(data.lastSavedTime);
+            TimeSpan timeAway = DateTime.UtcNow - lastSaved;
+            float secondsAway = (float)timeAway.TotalSeconds;
+
+            // 2. Calculate the missed depletion
+            float totalDepletion = secondsAway * depletionRate;
+
+            // 3. Apply it to the saved stats
+            hunger = Mathf.Clamp(data.hunger - totalDepletion, 0f, maxHunger);
+            cleanliness = Mathf.Clamp(data.cleanliness - totalDepletion, 0f, maxCleanliness);
+            love = Mathf.Clamp(data.love - totalDepletion, 0f, maxLove);
+        }
+    }
+
+    private void SaveStats()
+    {
+        if (GameManager.Instance == null) return;
+
+        // Use MY ID to save, not the global GameManager ID
+        if (GameManager.Instance.roomPets.TryGetValue(myRoomID, out PetData data))
+        {
+            data.hunger = hunger;
+            data.cleanliness = cleanliness;
+            data.love = love;
+
+            // Record the exact time we saved
+            data.lastSavedTime = DateTime.UtcNow.Ticks;
+        }
+    }
+
+    public void BoostHunger(float amount) { hunger = Mathf.Clamp(hunger + amount, 0f, maxHunger); }
     public void BoostCleanliness(float amount) { cleanliness = Mathf.Clamp(cleanliness + amount, 0f, maxCleanliness); }
     public void BoostLove(float amount) { love = Mathf.Clamp(love + amount, 0f, maxLove); }
 }

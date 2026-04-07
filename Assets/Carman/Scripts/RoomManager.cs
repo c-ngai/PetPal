@@ -27,12 +27,34 @@ public class RoomManager : SelectionList
         currentIndex = 0;
     }
 
-    public void PlacePetInRoom(Room room, GameObject petPrefab)
+    public bool PlacePetInRoom(Room room, GameObject petPrefab)
     {
         if (!room.IsOccupied())
         {
+            // 1. Create the persistent data for the new pet
+            PetData newPet = new PetData();
+            newPet.petPrefab = petPrefab;
+            newPet.hunger = 100f;
+            newPet.cleanliness = 100f;
+            newPet.love = 100f;
+
+            // FIX: Save the permanent data as a hatched Pet, not an Egg!
+            newPet.stage = Pet.PetStage.Pet;
+
+            // 2. Set the critical timestamp right now!
+            newPet.lastSavedTime = System.DateTime.UtcNow.Ticks;
+
+            // 3. Save it to the GameManager dictionary using the roomID
+            GameManager.Instance.roomPets[room.RoomID] = newPet;
+
+            // 4. Actually spawn/place it visually in the room
             room.PlacePet(petPrefab);
+
+            return true; // Success!
         }
+
+        Debug.Log("Room is already occupied!");
+        return false; // Failed to place
     }
 
     protected override void OnItemSelected(int index)
@@ -50,15 +72,26 @@ public class RoomManager : SelectionList
         {
             Room selectedRoom = roomsInScene[index];
 
-            // Store selected room in GameManager
-            GameManager.Instance.currentRoomID = selectedRoom.RoomID;
-
             if (GameManager.Instance.IsPlacingPet)
             {
-                PlacePetInRoom(selectedRoom, GameManager.Instance.currentPurchasedPetPrefab);
-                GameManager.Instance.IsPlacingPet = false;
+                // Try to place the pet
+                bool success = PlacePetInRoom(selectedRoom, GameManager.Instance.currentPurchasedPetPrefab);
+
+                if (success)
+                {
+                    // Only turn off placement mode if they successfully moved in
+                    GameManager.Instance.IsPlacingPet = false;
+                    GameManager.Instance.currentPurchasedPetPrefab = null;
+                }
+                else
+                {
+                    // Room was full. Stop here so they can pick another room.
+                    return;
+                }
             }
 
+            // Store selected room in GameManager and switch states
+            GameManager.Instance.currentRoomID = selectedRoom.RoomID;
             GameManager.Instance.SetState(GameManager.GameState.RoomSelected);
         }
     }
