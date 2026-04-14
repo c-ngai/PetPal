@@ -7,7 +7,12 @@ public class PlayMiniGameManager : MonoBehaviour
     [Header("UI Elements")]
     public TextMeshProUGUI countdownText;
     public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI coinsText;
     public GameObject gameOverPanel;
+
+    [Header("Bonus Popups")]
+    public GameObject bonusPopupPrefab;
+    public Transform popupSpawnPoint;
 
     [Header("Spawning")]
     public GameObject obstaclePrefab;
@@ -22,7 +27,10 @@ public class PlayMiniGameManager : MonoBehaviour
 
     private float currentSpeed;
     private float score = 0f;
+    private int coinsEarned = 0;
     private bool gameActive = false;
+
+    private Coroutine spawnCoroutine;
 
     void OnEnable()
     {
@@ -34,7 +42,6 @@ public class PlayMiniGameManager : MonoBehaviour
         currentSpeed = initialSpeed;
         StartCoroutine(StartGameRoutine());
     }
-
 
     IEnumerator StartGameRoutine()
     {
@@ -53,7 +60,8 @@ public class PlayMiniGameManager : MonoBehaviour
         countdownText.gameObject.SetActive(false);
 
         gameActive = true;
-        StartCoroutine(SpawnRoutine());
+
+        spawnCoroutine = StartCoroutine(SpawnRoutine());
     }
 
     IEnumerator SpawnRoutine()
@@ -78,11 +86,29 @@ public class PlayMiniGameManager : MonoBehaviour
         currentSpeed = Mathf.Min(maxSpeed, currentSpeed + (speedIncreaseRate * Time.deltaTime));
 
         scoreText.text = "Score: " + Mathf.FloorToInt(score).ToString();
+
+        coinsEarned = Mathf.FloorToInt(score / 100f) * 10;
+
+        if (coinsText != null)
+        {
+            coinsText.text = "Coins: " + coinsEarned.ToString();
+        }
     }
 
     public void AddBonusScore(float amount)
     {
         score += amount;
+
+        if (bonusPopupPrefab != null && popupSpawnPoint != null)
+        {
+            GameObject popup = Instantiate(bonusPopupPrefab, popupSpawnPoint.position, Quaternion.identity);
+
+            BonusTextPopup popupScript = popup.GetComponent<BonusTextPopup>();
+            if (popupScript != null)
+            {
+                popupScript.Setup(amount);
+            }
+        }
     }
 
     public void EndGame()
@@ -90,14 +116,27 @@ public class PlayMiniGameManager : MonoBehaviour
         if (!gameActive) return;
 
         gameActive = false;
+
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+        }
+
+        // ADDED: Freeze game time immediately when the game ends
+        Time.timeScale = 0f;
+
         gameOverPanel.SetActive(true);
+
+        Debug.Log("Final Coins Earned: " + coinsEarned);
+        // CurrencyManager.Instance.AddCurrency(coinsEarned); 
 
         StartCoroutine(EndGameRoutine());
     }
 
     IEnumerator EndGameRoutine()
     {
-        yield return new WaitForSecondsRealtime(2f); // works even if timescale = 0
+        // Because Time.timeScale is 0, we must use WaitForSecondsRealtime
+        yield return new WaitForSecondsRealtime(2f);
 
         Time.timeScale = 1f; // reset before leaving
         GameManager.Instance.GoBack();
