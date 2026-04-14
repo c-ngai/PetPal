@@ -24,6 +24,9 @@ public class MiniGamePet : MonoBehaviour
             // Note: Fixed a small typo from your previous script (ForceForceMode -> ForceMode)
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+
+            // EVENT TRIGGER: Broadcast that the pet jumped
+            GameEvents.OnPetJump?.Invoke();
         }
     }
 

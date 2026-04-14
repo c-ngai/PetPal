@@ -46,6 +46,7 @@ public class PlayMiniGameManager : MonoBehaviour
     IEnumerator StartGameRoutine()
     {
         gameOverPanel.SetActive(false);
+        GameEvents.OnGameCountdown?.Invoke();
         int countdown = 3;
 
         while (countdown > 0)
@@ -99,6 +100,9 @@ public class PlayMiniGameManager : MonoBehaviour
     {
         score += amount;
 
+        // EVENT TRIGGER: Broadcast that a bonus was scored
+        GameEvents.OnBonusScored?.Invoke();
+
         if (bonusPopupPrefab != null && popupSpawnPoint != null)
         {
             GameObject popup = Instantiate(bonusPopupPrefab, popupSpawnPoint.position, Quaternion.identity);
@@ -122,13 +126,16 @@ public class PlayMiniGameManager : MonoBehaviour
             StopCoroutine(spawnCoroutine);
         }
 
-        // ADDED: Freeze game time immediately when the game ends
+        // Freeze game time immediately when the game ends
         Time.timeScale = 0f;
+
+        // EVENT TRIGGER: Broadcast that the game is over
+        GameEvents.OnGameOver?.Invoke();
 
         gameOverPanel.SetActive(true);
 
         Debug.Log("Final Coins Earned: " + coinsEarned);
-        CurrencyManager.Instance.AddCurrency(coinsEarned); 
+        CurrencyManager.Instance.AddCurrency(coinsEarned);
 
         StartCoroutine(EndGameRoutine());
     }
