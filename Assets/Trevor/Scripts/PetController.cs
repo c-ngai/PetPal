@@ -161,6 +161,13 @@ public class PetController : MonoBehaviour
         );
     }
 
+    public void FinishingFeeding()
+    {
+        isInFeedMode = false;
+        isFeedInputActive = false;
+        currentState = PetState.Idle;
+    }
+
     // ================= CLEANING (UNCHANGED LOGIC) =================
 
     private void HandleCleanModeTransitions()

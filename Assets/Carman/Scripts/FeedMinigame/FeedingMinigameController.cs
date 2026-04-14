@@ -13,8 +13,8 @@ public class FeedMinigameController : MonoBehaviour
 
     private GameObject currentItem;
     private Coroutine lifetimeRoutine;
+    private bool isConsuming;
 
-    // ================= CONTROL =================
 
     public void StartFeed()
     {
@@ -35,7 +35,6 @@ public class FeedMinigameController : MonoBehaviour
         currentItem = null;
     }
 
-    // ================= SPAWN =================
 
     public void SpawnRandomItem()
     {
@@ -61,8 +60,6 @@ public class FeedMinigameController : MonoBehaviour
         lifetimeRoutine = StartCoroutine(ItemLifetimeRoutine());
     }
 
-    // ================= TIMEOUT SYSTEM =================
-
     private IEnumerator ItemLifetimeRoutine()
     {
         yield return new WaitForSeconds(itemLifetime);
@@ -77,22 +74,18 @@ public class FeedMinigameController : MonoBehaviour
         }
     }
 
-    // ================= CONSUME =================
 
-    public void ConsumeItem(bool isFood, PetStats stats)
+    public void EatItem(bool isFood, PetStats stats)
     {
+        if (isConsuming) return; // 🔒 prevent chain reactions
+        isConsuming = true;
+
         if (stats == null) return;
 
         if (isFood)
-        {
             stats.BoostHunger(25f);
-            Debug.Log("Fed pet! Hunger increased.");
-        }
         else
-        {
             stats.BoostHunger(-15f);
-            Debug.Log("Gave pet junk! Hunger decreased.");
-        }
 
         if (currentItem != null)
             Destroy(currentItem);
@@ -105,15 +98,26 @@ public class FeedMinigameController : MonoBehaviour
             return;
         }
 
-        // reset timer + continue loop
+        StartCoroutine(SpawnNextItemDelay());
+    }
+
+    private IEnumerator SpawnNextItemDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
+        isConsuming = false;
+
         SpawnRandomItem();
     }
 
     private void EndMinigame(PetStats stats)
     {
-        Debug.Log("Feeding complete!");
-
         StopFeed();
+
+        PetController pet = FindFirstObjectByType<PetController>();
+        if (pet != null)
+            pet.FinishingFeeding();
+
         GameManager.Instance.SetState(GameManager.GameState.RoomSelected);
     }
 }

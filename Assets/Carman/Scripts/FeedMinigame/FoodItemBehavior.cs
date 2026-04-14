@@ -13,10 +13,12 @@ public class FoodItemBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Food item collided with: " + other.tag);
+
         if (!other.CompareTag("Pet")) return;
 
         Debug.Log("Food item collided with pet!");
 
-        controller.ConsumeItem(isFood, other.GetComponent<PetStats>());
+        controller.EatItem(isFood, other.GetComponent<PetStats>());
     }
 }
