@@ -86,23 +86,40 @@ public class GameManager : MonoBehaviour
 
     public void SetState(GameState newState)
     {
-        if (CurrentState != newState)
+        if (CurrentState == newState) return;
+
+        if (IsNavigationState(CurrentState) && IsNavigationState(newState))
+        {
             PreviousState.Push(CurrentState);
+        }
 
         CurrentState = newState;
-        Debug.Log("Game State changed to: " + newState);
-
         LoadSceneForState(newState);
     }
 
     public void GoBack()
     {
-        if (PreviousState.Count > 0)
+        while (PreviousState.Count > 0)
         {
             GameState prev = PreviousState.Pop();
-            CurrentState = prev;
-            LoadSceneForState(prev);
+
+            if (IsNavigationState(prev))
+            {
+                CurrentState = prev;
+                LoadSceneForState(prev);
+                return;
+            }
         }
+
+        Debug.LogWarning("Back stack empty - nothing to return to");
+    }
+
+    private bool IsNavigationState(GameState state)
+    {
+        return state == GameState.BuildingSelection ||
+               state == GameState.RoomSelection ||
+               state == GameState.RoomSelected ||
+               state == GameState.PetPurchasing;
     }
 
     public bool IsActionMode()
