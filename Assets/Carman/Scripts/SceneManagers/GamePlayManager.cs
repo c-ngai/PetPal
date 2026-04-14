@@ -42,10 +42,9 @@ public class GamePlayManager : SelectionList
                 break;
 
             case "Feed":
-                return; // Temporarily disable feed mode until we have feed mode implemented
-                //if (!hasPet) return;
-                //GameManager.Instance.SetState(GameManager.GameState.FeedMode);
-                //break;
+                if (!hasPet) return;
+                GameManager.Instance.SetState(GameManager.GameState.FeedMode);
+                break;
 
             case "Clean":
                 if (!hasPet) return;

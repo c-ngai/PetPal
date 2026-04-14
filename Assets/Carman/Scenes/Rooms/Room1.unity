@@ -209,9 +209,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1185309228}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+--- !u!4 &191167358 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+  m_PrefabInstance: {fileID: 191167357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &243260559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,6 +1350,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1144029607}
   m_CullTransparentMesh: 1
+--- !u!1 &1185309227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1185309228}
+  m_Layer: 0
+  m_Name: FoodPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1185309228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185309227}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.072000004, y: -0.212, z: -3.49}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 191167358}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1294789145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,6 +2376,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1707596561}
   - component: {fileID: 1707596560}
+  - component: {fileID: 1707596562}
   m_Layer: 0
   m_Name: GamePlayManager
   m_TagString: Untagged
@@ -2378,6 +2418,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1707596562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707596559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4df10b2d17a3a64398a878e9525f88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FeedMinigameController
+  spawnPoint: {fileID: 1185309228}
+  items:
+  - prefab: {fileID: 1617911799858125638, guid: 5c1b2fae77588e342ab3666dd7770d1c, type: 3}
+    isFood: 1
+  - prefab: {fileID: 693747604403137348, guid: d09fa0901842f784da3300459bf68483, type: 3}
+    isFood: 0
 --- !u!1 &1875645581
 GameObject:
   m_ObjectHideFlags: 0
