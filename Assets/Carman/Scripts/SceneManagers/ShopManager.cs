@@ -59,6 +59,7 @@ public class ShopManager : SelectionList
 
     public void BuyPet(int index)
     {
+        CurrencyManager.Instance.RemoveCurrency(petPrefabs[index].GetComponent<Pet>().Price);
         GameManager.Instance.currentPurchasedPetPrefab = petPrefabs[index];
     }
 }

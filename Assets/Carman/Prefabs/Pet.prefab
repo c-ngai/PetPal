@@ -239,6 +239,7 @@ MonoBehaviour:
   eggSprite: {fileID: 21300000, guid: bb255c95d9db4d44d8ecef93f1317e8d, type: 3}
   petSprite: {fileID: 21300000, guid: d2b54ddb7a06d6341be4a14734d4ae17, type: 3}
   currentStage: 0
+  Price: 5
 --- !u!212 &3486458459921659215
 SpriteRenderer:
   serializedVersion: 2

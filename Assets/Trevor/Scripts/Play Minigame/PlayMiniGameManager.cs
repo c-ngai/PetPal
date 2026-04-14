@@ -128,7 +128,7 @@ public class PlayMiniGameManager : MonoBehaviour
         gameOverPanel.SetActive(true);
 
         Debug.Log("Final Coins Earned: " + coinsEarned);
-        // CurrencyManager.Instance.AddCurrency(coinsEarned); 
+        CurrencyManager.Instance.AddCurrency(coinsEarned); 
 
         StartCoroutine(EndGameRoutine());
     }

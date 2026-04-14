@@ -14,6 +14,7 @@ public class Pet : MonoBehaviour
     private SpriteRenderer sr;
 
     public PetStage currentStage = PetStage.Egg;
+    public int Price;
 
     void Awake()
     {
