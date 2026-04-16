@@ -90,7 +90,7 @@ public class PlayMiniGameManager : MonoBehaviour
 
         if (coinsText != null)
         {
-            coinsText.text = "Coins: " + coinsEarned.ToString();
+            coinsText.text =  coinsEarned.ToString() + " Beans Earned";
         }
     }
 
