@@ -37,6 +37,6 @@ public class CurrencyManager : MonoBehaviour
 
     void ChangeCurrencyUI()
     {
-        tmp.text = $"Coins: {currency}";
+        tmp.text = $"{currency}";
     }
 }
