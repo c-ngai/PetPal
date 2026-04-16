@@ -19,6 +19,10 @@ public class PetStats : MonoBehaviour
     private bool isInitialized = false;
     private string myRoomID;
 
+    public static event Action<string> OnAnyPetStatDepleted;
+
+    private bool hasTriggeredGameOver = false;
+
     // The Room will call this right after spawning the pet
     public void Initialize(string assignedRoomID)
     {
@@ -36,6 +40,12 @@ public class PetStats : MonoBehaviour
         hunger = Mathf.Clamp(hunger - (depletionRate * Time.deltaTime), 0f, maxHunger);
         cleanliness = Mathf.Clamp(cleanliness - (depletionRate * Time.deltaTime), 0f, maxCleanliness);
         love = Mathf.Clamp(love - (depletionRate * Time.deltaTime), 0f, maxLove);
+
+        if (!hasTriggeredGameOver && (hunger <= 0f || cleanliness <= 0f || love <= 0f))
+        {
+            hasTriggeredGameOver = true;
+            OnAnyPetStatDepleted?.Invoke(myRoomID);
+        }
     }
 
     // Save when the player leaves the room (scene changes or object is destroyed)
@@ -53,7 +63,7 @@ public class PetStats : MonoBehaviour
     // Save if the player force-closes the game
     void OnApplicationQuit()
     {
-        if (isInitialized) SaveStats();
+        if (isInitialized && isInitialized) SaveStats();
     }
 
     private void LoadAndCatchUpStats()
@@ -81,6 +91,11 @@ public class PetStats : MonoBehaviour
             hunger = Mathf.Clamp(data.hunger - totalDepletion, 0f, maxHunger);
             cleanliness = Mathf.Clamp(data.cleanliness - totalDepletion, 0f, maxCleanliness);
             love = Mathf.Clamp(data.love - totalDepletion, 0f, maxLove);
+
+            if (hunger <= 0f || cleanliness <= 0f || love <= 0f)
+            {
+                OnAnyPetStatDepleted?.Invoke(myRoomID);
+            }
         }
     }
 

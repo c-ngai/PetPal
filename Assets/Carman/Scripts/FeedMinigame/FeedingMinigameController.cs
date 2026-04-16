@@ -15,7 +15,6 @@ public class FeedMinigameController : MonoBehaviour
     private Coroutine lifetimeRoutine;
     private bool isConsuming;
 
-
     public void StartFeed()
     {
         StopFeed();
@@ -25,24 +24,31 @@ public class FeedMinigameController : MonoBehaviour
     public void StopFeed()
     {
         if (lifetimeRoutine != null)
+        {
             StopCoroutine(lifetimeRoutine);
-
-        lifetimeRoutine = null;
+            lifetimeRoutine = null;
+        }
 
         if (currentItem != null)
+        {
             Destroy(currentItem);
+            currentItem = null;
+        }
 
-        currentItem = null;
+        isConsuming = false;
     }
-
 
     public void SpawnRandomItem()
     {
         if (items.Count == 0 || spawnPoint == null)
             return;
 
+        // Clean up existing item
         if (currentItem != null)
+        {
             Destroy(currentItem);
+            currentItem = null;
+        }
 
         int index = Random.Range(0, items.Count);
         FoodItemData chosen = items[index];
@@ -53,7 +59,7 @@ public class FeedMinigameController : MonoBehaviour
         if (behaviour != null)
             behaviour.Initialize(this, chosen.isFood);
 
-        // RESET TIMER EVERY SPAWN
+        // Reset lifetime timer
         if (lifetimeRoutine != null)
             StopCoroutine(lifetimeRoutine);
 
@@ -64,34 +70,49 @@ public class FeedMinigameController : MonoBehaviour
     {
         yield return new WaitForSeconds(itemLifetime);
 
-        // If item still exists (not consumed)
+        // Destroy if still exists
         if (currentItem != null)
         {
             Destroy(currentItem);
             currentItem = null;
-
-            SpawnRandomItem(); // force progression
         }
-    }
 
+        // ALWAYS spawn next item
+        SpawnRandomItem();
+    }
 
     public void EatItem(bool isFood, PetStats stats)
     {
-        if (isConsuming) return; // 🔒 prevent chain reactions
+        if (isConsuming) return;
         isConsuming = true;
 
-        if (stats == null) return;
+        if (stats == null)
+        {
+            isConsuming = false;
+            return;
+        }
 
+        // Stop lifetime timer so it doesn't interfere
+        if (lifetimeRoutine != null)
+        {
+            StopCoroutine(lifetimeRoutine);
+            lifetimeRoutine = null;
+        }
+
+        // Apply effect
         if (isFood)
             stats.BoostHunger(25f);
         else
             stats.BoostHunger(-15f);
 
+        // Destroy current item
         if (currentItem != null)
+        {
             Destroy(currentItem);
+            currentItem = null;
+        }
 
-        currentItem = null;
-
+        // Check for end condition
         if (stats.hunger >= stats.maxHunger)
         {
             EndMinigame(stats);
@@ -106,7 +127,6 @@ public class FeedMinigameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         isConsuming = false;
-
         SpawnRandomItem();
     }
 

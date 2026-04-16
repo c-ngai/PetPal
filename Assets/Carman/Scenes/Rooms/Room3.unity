@@ -2648,7 +2648,7 @@ MonoBehaviour:
     isFood: 1
   - prefab: {fileID: 693747604403137348, guid: d09fa0901842f784da3300459bf68483, type: 3}
     isFood: 0
-  itemLifetime: 2
+  itemLifetime: 1.5
 --- !u!1 &1992443783
 GameObject:
   m_ObjectHideFlags: 0

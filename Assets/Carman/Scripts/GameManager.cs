@@ -15,7 +15,8 @@ public class GameManager : MonoBehaviour
         PetPurchasing,
         PlayMode,
         FeedMode,
-        CleanMode
+        CleanMode,
+        GameOver
     }
 
     public GameState CurrentState;
@@ -51,7 +52,14 @@ public class GameManager : MonoBehaviour
         PreviousState = new Stack<GameState>();
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        PetStats.OnAnyPetStatDepleted += HandlePetDeath;
+
         SetState(GameState.BuildingSelection);
+    }
+
+    void OnDestroy()
+    {
+        PetStats.OnAnyPetStatDepleted -= HandlePetDeath;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -64,6 +72,7 @@ public class GameManager : MonoBehaviour
             case GameState.RoomSelection:
                 currentList = RoomManager.Instance;
                 RoomManager.Instance.LoadPets();
+                CheckAllPetsForGameOver();
                 break;
             case GameState.RoomSelected:
                 currentList = GamePlayManager.Instance;
@@ -85,6 +94,26 @@ public class GameManager : MonoBehaviour
             default:
                 currentList = null;
                 break;
+        }
+    }
+
+    private void HandlePetDeath(string roomID)
+    {
+        if (CurrentState == GameState.GameOver) return;
+        SetState(GameState.GameOver);
+    }
+
+    private void CheckAllPetsForGameOver()
+    {
+        foreach (var kvp in roomPets)
+        {
+            var data = kvp.Value;
+
+            if (data.hunger <= 0f || data.cleanliness <= 0f || data.love <= 0f)
+            {
+                SetState(GameState.GameOver);
+                return;
+            }
         }
     }
 
@@ -166,6 +195,20 @@ public class GameManager : MonoBehaviour
                 SceneManager.LoadScene("PlayScene");
                 currentList = null;
                 break;
+            case GameState.GameOver:
+                SceneManager.LoadScene("GameOverScene");
+                break;
         }
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quitting game...");
+
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 }
