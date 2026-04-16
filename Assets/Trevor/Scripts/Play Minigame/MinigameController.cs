@@ -5,12 +5,21 @@ public class MiniGameController : MonoBehaviour
     public InputManager inputManager;
     public MiniGamePet miniGamePet;
 
+    private void Awake()
+    {
+        if (inputManager != null)
+        {
+            // Assuming your InputManager has an action for jumping or playing
+            inputManager = InputManager.Instance;
+            inputManager.OnPlayAction += HandleJumpInput;
+        }
+    }
     void Start()
     {
         if (inputManager != null)
         {
             // Assuming your InputManager has an action for jumping or playing
-            inputManager.OnPlayAction += HandleJumpInput;
+            //inputManager.OnPlayAction += HandleJumpInput;
         }
     }
 

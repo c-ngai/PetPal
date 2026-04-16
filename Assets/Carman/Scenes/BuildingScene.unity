@@ -397,14 +397,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177e7d949f753d14bb9e3e164dcde770, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableArduino: 0
-  portName: COM4
+  enableArduino: 1
+  portName: COM7
   baudRate: 9600
   distanceBufferSize: 5
   smoothedDistance: 0
   micPressed: 0
+  micReleased: 1
   distPressed: 0
+  distReleased: 1
   tiltBtnPressed: 0
+  tiltBtnReleased: 1
   isTilted: 0
   soundDetected: 0
 --- !u!4 &108990236
@@ -927,6 +930,8 @@ MonoBehaviour:
   currentRoomID: 
   currentBuildingID: 
   currentPurchasedPetPrefab: {fileID: 0}
+  activeMinigameRoomID: 
+  activeMinigameSprite: {fileID: 0}
 --- !u!1 &1029846862
 GameObject:
   m_ObjectHideFlags: 0

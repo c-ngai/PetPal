@@ -5,6 +5,9 @@ using System.Threading;
 
 public class ArduinoReader : MonoBehaviour
 {
+
+    public static ArduinoReader Instance;
+
     [Header("Hardware Settings")]
     public bool enableArduino = false; // <-- UNCHECK THIS IN UNITY TO USE KEYBOARD ONLY
     public string portName = "COM4";
@@ -23,18 +26,33 @@ public class ArduinoReader : MonoBehaviour
     [Header("Sensor States")]
     // left button
     public bool micPressed = false;
+    public bool micReleased = true;
 
     // right button 
     public bool distPressed = false;
+    public bool distReleased = true;
 
     // middle button
     public bool tiltBtnPressed = false;
+    public bool tiltBtnReleased = true;
     public bool isTilted = false;
     public bool soundDetected = false;
 
     [HideInInspector]
     private bool _soundTriggered = false;
     public bool soundTriggered { get { return _soundTriggered; } }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject); // Prevent duplicate
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject); // Persist between scenes
+    }
+
 
     void Start()
     {
@@ -86,7 +104,7 @@ public class ArduinoReader : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Update()
     {
         if (!enableArduino) return; // Skip updating if Arduino is disabled
 
@@ -103,12 +121,12 @@ public class ArduinoReader : MonoBehaviour
 
             switch (line)
             {
-                case "MIC_BTN_PRESS": micPressed = true; break;
-                case "MIC_BTN_RELEASE": micPressed = false; break;
-                case "DIST_BTN_PRESS": distPressed = true; break;
-                case "DIST_BTN_RELEASE": distPressed = false; break;
-                case "TILT_BTN_PRESS": tiltBtnPressed = true; break;
-                case "TILT_BTN_RELEASE": tiltBtnPressed = false; break;
+                case "MIC_BTN_PRESS": micPressed = true; micReleased = false; break;
+                case "MIC_BTN_RELEASE": micPressed = false; micReleased = true; break;
+                case "DIST_BTN_PRESS": distPressed = true; distReleased = false; break;
+                case "DIST_BTN_RELEASE": distPressed = false; distReleased = true; break;
+                case "TILT_BTN_PRESS": tiltBtnPressed = true; tiltBtnReleased = false; break;
+                case "TILT_BTN_RELEASE": tiltBtnPressed = false; tiltBtnReleased = true; break;
                 case "TILT_ON": isTilted = true; break;
                 case "TILT_OFF": isTilted = false; break;
                 case "SOUND":

@@ -25,6 +25,8 @@ public class InputManager : MonoBehaviour
 
     private bool previousArduinoTilt = false;
 
+    private bool holdingButton = false;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -53,6 +55,10 @@ public class InputManager : MonoBehaviour
         playInput = playerMap.FindAction("Play");
         cleanInput = playerMap.FindAction("Clean");
         feedInput = playerMap.FindAction("Feed");
+        if(ArduinoReader.Instance.enableArduino)
+        {
+            arduinoReader = ArduinoReader.Instance;
+        }
     }
 
     void OnEnable()
@@ -83,17 +89,40 @@ public class InputManager : MonoBehaviour
     {
         if (arduinoReader == null || !arduinoReader.enableArduino) return;
 
-        bool currentTilt = arduinoReader.isTilted && arduinoReader.tiltBtnPressed;
-        if (currentTilt && !previousArduinoTilt)
+        if (!holdingButton)
         {
-            HandlePlayPressed();
-        }
-        previousArduinoTilt = currentTilt;
+            bool currentTilt = arduinoReader.isTilted;
+            if (previousArduinoTilt != currentTilt && GameManager.Instance.IsPlayMode())
+            {
+                HandlePlayPressed();
+                Debug.Log("Straight up tilting my shit");
+            }
+            if (arduinoReader.tiltBtnPressed)
+            {
+                HandlePlayPressed();
+                holdingButton = true;
+            }
+            previousArduinoTilt = currentTilt;
 
-        if (arduinoReader.soundTriggered)
+
+            if (arduinoReader.micPressed)
+            {
+                HandleCleanPressed();
+                arduinoReader.ConsumeSoundTrigger();
+                holdingButton = true;
+            }
+            if (arduinoReader.distPressed)
+            {
+                HandleFeedPressed();
+                holdingButton = true;
+            }
+        }
+        else
         {
-            HandleCleanPressed();
-            arduinoReader.ConsumeSoundTrigger();
+            if(arduinoReader.tiltBtnReleased && arduinoReader.distReleased && arduinoReader.micReleased)
+            {
+                holdingButton = false;
+            }
         }
     }
 
@@ -112,7 +141,7 @@ public class InputManager : MonoBehaviour
 
     private void HandlePlayPressed()
     {
-        if (GameManager.Instance.IsActionMode())
+        if (GameManager.Instance.IsActionMode() || GameManager.Instance.IsPlayMode())
         {
             Debug.Log("PLAY triggered!");
             OnPlayAction?.Invoke();
@@ -145,5 +174,10 @@ public class InputManager : MonoBehaviour
             Debug.Log("CONFIRM selection");
             OnConfirmSelect?.Invoke();
         }
+    }
+
+    private void HandleJunp()
+    {
+
     }
 }

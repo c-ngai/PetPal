@@ -133,6 +133,11 @@ public class GameManager : MonoBehaviour
                CurrentState == GameState.CleanMode;
     }
 
+    public bool IsPlayMode()
+    {
+        return CurrentState == GameState.PlayMode;
+    }
+
     void LoadSceneForState(GameState state)
     {
         switch (state)
