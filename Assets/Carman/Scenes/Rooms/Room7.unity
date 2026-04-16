@@ -2047,8 +2047,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FeedMinigameController
   spawnPoint: {fileID: 1001864818}
-  items: []
-  itemLifetime: 3
+  items:
+  - prefab: {fileID: 1617911799858125638, guid: 5c1b2fae77588e342ab3666dd7770d1c, type: 3}
+    isFood: 1
+  - prefab: {fileID: 693747604403137348, guid: d09fa0901842f784da3300459bf68483, type: 3}
+    isFood: 0
+  itemLifetime: 2
 --- !u!1 &1812887586
 GameObject:
   m_ObjectHideFlags: 0
