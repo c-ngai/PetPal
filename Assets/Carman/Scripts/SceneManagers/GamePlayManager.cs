@@ -30,6 +30,7 @@ public class GamePlayManager : SelectionList
 
         bool hasPet = room != null && room.IsOccupied();
 
+
         switch (selectedButton.name)
         {
             case "Back":
@@ -38,6 +39,25 @@ public class GamePlayManager : SelectionList
 
             case "Play":
                 if (!hasPet) return;
+
+                // Find the pet in the room to grab its data before switching scenes
+                Pet activePet = FindFirstObjectByType<Pet>();
+                if (activePet != null)
+                {
+                    // Pass the Sprite to the GameManager
+                    SpriteRenderer petSprite = activePet.GetComponentInChildren<SpriteRenderer>();
+                    if (petSprite != null)
+                    {
+                        GameManager.Instance.activeMinigameSprite = petSprite.sprite;
+                    }
+
+                    // Pass the Room ID to the GameManager so stats update correctly later
+                    if (room != null)
+                    {
+                        GameManager.Instance.activeMinigameRoomID = room.RoomID;
+                    }
+                }
+
                 GameManager.Instance.SetState(GameManager.GameState.PlayMode);
                 break;
 

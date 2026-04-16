@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class MiniGamePet : MonoBehaviour
 {
+    [Header("Visuals")]
+    public SpriteRenderer spriteRenderer;
+
+    [Header("Settings")]
     public float jumpForce = 10f;
     public float gravityMultiplier = 2.5f;
     public PlayMiniGameManager gameManager;
@@ -12,16 +16,22 @@ public class MiniGamePet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        // Ensure gravity feels "snappy" like a platformer
         Physics.gravity = new Vector3(0, -9.81f * gravityMultiplier, 0);
+
+        // Apply the correct sprite handoff from the GameManager
+        if (GameManager.Instance != null && GameManager.Instance.activeMinigameSprite != null)
+        {
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sprite = GameManager.Instance.activeMinigameSprite;
+            }
+        }
     }
 
-    // This method is now public and triggered by your PetController
     public void Jump()
     {
         if (isGrounded)
         {
-            // Note: Fixed a small typo from your previous script (ForceForceMode -> ForceMode)
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
 
@@ -45,7 +55,6 @@ public class MiniGamePet : MonoBehaviour
 
     private void OnTriggerEnter(Collider wildlife)
     {
-        // Use a trigger zone behind the pet to detect a successful jump
         if (wildlife.CompareTag("Obstacle"))
         {
             gameManager.AddBonusScore(50f);

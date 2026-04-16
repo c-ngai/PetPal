@@ -1,5 +1,5 @@
 using UnityEngine;
-using TMPro; // Ensure you have TextMeshPro installed
+using TMPro;
 using System.Collections;
 
 public class PlayMiniGameManager : MonoBehaviour
@@ -72,7 +72,6 @@ public class PlayMiniGameManager : MonoBehaviour
             GameObject obs = Instantiate(obstaclePrefab, spawnPoint.position, Quaternion.identity);
             obs.GetComponent<MiniGameObstacle>().speed = currentSpeed;
 
-            // Wait for a random interval that gets shorter over time
             float currentInterval = Mathf.Max(minSpawnInterval, startSpawnInterval - (score / 1000f));
             yield return new WaitForSeconds(Random.Range(currentInterval, currentInterval + 0.5f));
         }
@@ -82,7 +81,6 @@ public class PlayMiniGameManager : MonoBehaviour
     {
         if (!gameActive) return;
 
-        // Increase score and speed over time
         score += Time.deltaTime * 10f;
         currentSpeed = Mathf.Min(maxSpeed, currentSpeed + (speedIncreaseRate * Time.deltaTime));
 
@@ -100,7 +98,6 @@ public class PlayMiniGameManager : MonoBehaviour
     {
         score += amount;
 
-        // EVENT TRIGGER: Broadcast that a bonus was scored
         GameEvents.OnBonusScored?.Invoke();
 
         if (bonusPopupPrefab != null && popupSpawnPoint != null)
@@ -126,26 +123,41 @@ public class PlayMiniGameManager : MonoBehaviour
             StopCoroutine(spawnCoroutine);
         }
 
-        // Freeze game time immediately when the game ends
         Time.timeScale = 0f;
 
-        // EVENT TRIGGER: Broadcast that the game is over
         GameEvents.OnGameOver?.Invoke();
 
         gameOverPanel.SetActive(true);
 
         Debug.Log("Final Coins Earned: " + coinsEarned);
-        CurrencyManager.Instance.AddCurrency(coinsEarned);
+
+        // Ensure CurrencyManager exists in your project before calling this
+        if (CurrencyManager.Instance != null)
+        {
+            CurrencyManager.Instance.AddCurrency(coinsEarned);
+        }
+
+        // Apply max love stat to the specific pet that played the game
+        if (GameManager.Instance != null && !string.IsNullOrEmpty(GameManager.Instance.activeMinigameRoomID))
+        {
+            string roomID = GameManager.Instance.activeMinigameRoomID;
+
+            if (GameManager.Instance.roomPets.TryGetValue(roomID, out PetData activePet))
+            {
+                // Set love to 100 (full) regardless of score
+                activePet.love = 100f;
+                activePet.lastSavedTime = System.DateTime.UtcNow.Ticks;
+            }
+        }
 
         StartCoroutine(EndGameRoutine());
     }
 
     IEnumerator EndGameRoutine()
     {
-        // Because Time.timeScale is 0, we must use WaitForSecondsRealtime
         yield return new WaitForSecondsRealtime(2f);
 
-        Time.timeScale = 1f; // reset before leaving
+        Time.timeScale = 1f;
         GameManager.Instance.GoBack();
     }
 }

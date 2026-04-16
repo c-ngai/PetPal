@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject currentPurchasedPetPrefab;
 
+    [Header("Minigame Handoff Data")]
+    public string activeMinigameRoomID; // Knows WHICH pet to give stats to
+    public Sprite activeMinigameSprite; // Knows WHAT the pet looks like
+
     // Persistent mapping of roomID -> pet
     public Dictionary<string, PetData> roomPets = new Dictionary<string, PetData>();
 
@@ -111,7 +115,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.LogWarning("Back stack empty - nothing to return to");
+        Debug.LogWarning("Back stack empty, nothing to return to");
     }
 
     private bool IsNavigationState(GameState state)
@@ -128,7 +132,6 @@ public class GameManager : MonoBehaviour
                CurrentState == GameState.FeedMode ||
                CurrentState == GameState.CleanMode;
     }
-
 
     void LoadSceneForState(GameState state)
     {
