@@ -555,6 +555,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pet
       objectReference: {fileID: 0}
+    - target: {fileID: 3265047295301508406, guid: 7209a99df4420784990f8a5caa28634b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3486458459921659215, guid: 7209a99df4420784990f8a5caa28634b, type: 3}
       propertyPath: m_Size.x
       value: 0.34133333
@@ -610,6 +614,14 @@ PrefabInstance:
     - target: {fileID: 6495362311135377341, guid: 7209a99df4420784990f8a5caa28634b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617161540433896220, guid: 7209a99df4420784990f8a5caa28634b, type: 3}
+      propertyPath: outlineScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7617161540433896220, guid: 7209a99df4420784990f8a5caa28634b, type: 3}
+      propertyPath: useScaleHighlight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1137,6 +1149,14 @@ PrefabInstance:
     - target: {fileID: 5188626883704829484, guid: 0d5dd49ee98c89a4daa5b05338873b7d, type: 3}
       propertyPath: m_Name
       value: Room10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8966205121391451709, guid: 0d5dd49ee98c89a4daa5b05338873b7d, type: 3}
+      propertyPath: outlineScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8966205121391451709, guid: 0d5dd49ee98c89a4daa5b05338873b7d, type: 3}
+      propertyPath: useScaleHighlight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
