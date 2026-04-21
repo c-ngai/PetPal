@@ -7,6 +7,7 @@ public class FeedMinigameController : MonoBehaviour
     [Header("Spawn Settings")]
     public Transform spawnPoint;
     public List<FoodItemData> items = new();
+    public float foodSpawnChance = .75f;
 
     [Header("Timing")]
     public float itemLifetime = 3f;
@@ -50,8 +51,17 @@ public class FeedMinigameController : MonoBehaviour
             currentItem = null;
         }
 
-        int index = Random.Range(0, items.Count);
-        FoodItemData chosen = items[index];
+        bool spawnFood = Random.value < foodSpawnChance;
+
+        List<FoodItemData> filtered = items.FindAll(i => i.isFood == spawnFood);
+
+        if (filtered.Count == 0)
+        {
+            filtered = items;
+        }
+
+        int index = Random.Range(0, filtered.Count);
+        FoodItemData chosen = filtered[index];
 
         currentItem = Instantiate(chosen.prefab, spawnPoint.position, Quaternion.identity);
 

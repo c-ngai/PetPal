@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7273c4dbbfccf124db49b8a4a16b6695, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 2348890048091635187}
   - component: {fileID: 1390453496902448306}
   m_Layer: 0
-  m_Name: Pet
+  m_Name: Seal
   m_TagString: Pet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,7 +157,7 @@ Transform:
   m_GameObject: {fileID: 3265047295301508406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -215,8 +215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3fe6556c357ea4a8e2f55002e93a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pet
-  eggSprite: {fileID: 21300000, guid: bb255c95d9db4d44d8ecef93f1317e8d, type: 3}
-  petSprite: {fileID: 21300000, guid: d2b54ddb7a06d6341be4a14734d4ae17, type: 3}
+  eggSprite: {fileID: 21300000, guid: 32b06299d0bcaba4e8580e198352789c, type: 3}
+  petSprite: {fileID: 21300000, guid: 22cab9f32ea02c54fa89a74d0cd4a2ad, type: 3}
   currentStage: 0
   Price: 5
 --- !u!212 &3486458459921659215
@@ -291,8 +291,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   outlineColor: {r: 0, g: 0, b: 0, a: 0.65}
-  outlineScale: 1.1
-  useScaleHighlight: 0
+  outlineScale: 0
+  useScaleHighlight: 1
   highlightScale: 1.1
 --- !u!65 &2348890048091635187
 BoxCollider:
@@ -423,7 +423,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fbb7de24c2b807549bc617f1671580e7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -514,7 +514,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24bbbbbbfba04984cac11a99553328bf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

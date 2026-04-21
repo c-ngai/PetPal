@@ -463,6 +463,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 419685511137554629, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 419685511137554629, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419685511137554629, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419685511137554629, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_LocalScale.x
       value: 4
@@ -2083,8 +2099,17 @@ MonoBehaviour:
   items:
   - prefab: {fileID: 1617911799858125638, guid: 5c1b2fae77588e342ab3666dd7770d1c, type: 3}
     isFood: 1
+  - prefab: {fileID: 1617911799858125638, guid: 25ba9f93ff69ae94197c519f9dbaa515, type: 3}
+    isFood: 1
+  - prefab: {fileID: 1617911799858125638, guid: ecea02d9b350aaf4c9a7184abc4cf629, type: 3}
+    isFood: 1
   - prefab: {fileID: 693747604403137348, guid: d09fa0901842f784da3300459bf68483, type: 3}
     isFood: 0
+  - prefab: {fileID: 693747604403137348, guid: 785f38ee192acd84fbd9c6a7a69eadf0, type: 3}
+    isFood: 0
+  - prefab: {fileID: 693747604403137348, guid: c98b115548b1d464aaf5159a3655ca58, type: 3}
+    isFood: 0
+  foodSpawnChance: 0.75
   itemLifetime: 1.5
 --- !u!1 &1713823075
 GameObject:

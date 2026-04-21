@@ -12,9 +12,6 @@ public class Highlightable : MonoBehaviour
     [SerializeField] private bool useScaleHighlight = false;
     [SerializeField] private float highlightScale = 1.1f;
     private Vector3 originalScale;
-    [SerializeField] private float highlightZOffset = -.1f; // negative = closer to camera
-
-    private Vector3 originalPosition;
 
     void Awake()
     {
@@ -40,7 +37,6 @@ public class Highlightable : MonoBehaviour
         outlineSR.sortingOrder = sr.sortingOrder;
 
         outline.SetActive(false);
-        originalPosition = transform.localPosition;
 
     }
 
@@ -51,9 +47,6 @@ public class Highlightable : MonoBehaviour
         if (useScaleHighlight)
         {
             transform.localScale = highlighted ? originalScale * highlightScale : originalScale;
-            transform.localPosition = highlighted
-            ? originalPosition + new Vector3(0f, 0f, highlightZOffset)
-            : originalPosition;
         }
     }
 
