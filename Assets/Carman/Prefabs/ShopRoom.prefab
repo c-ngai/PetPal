@@ -115,7 +115,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: f14f7c55eb5c6ef4ea09900e0a3b0bf3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2c8fc5c0be6c118469ec009e271a82b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,5 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 992f85ce92639734d9ea22eaa23bed38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
-  roomID: ShopRoom
+  RoomID: 
+  BuildingID: 
   petPosition: {fileID: 0}
+  selectionScale: {x: 1, y: 1, z: 1}
+  roomViewScale: {x: 2, y: 2, z: 2}
