@@ -23,6 +23,11 @@ public class CurrencyManager : MonoBehaviour
         }
     }
 
+    public bool HasEnoughCurrency(int amount)
+    {
+        return currency >= amount;
+    }
+
     public void AddCurrency(int i)
     {
         currency += i;

@@ -51,15 +51,28 @@ public class ShopManager : SelectionList
         }
         else
         {
-            BuyPet(index);
+            bool success = BuyPet(index);
+
+            if (!success) return;
+
             GameManager.Instance.IsPlacingPet = true;
             GameManager.Instance.SetState(GameManager.GameState.BuildingSelection);
         }
     }
 
-    public void BuyPet(int index)
+
+    public bool BuyPet(int index)
     {
-        CurrencyManager.Instance.RemoveCurrency(petPrefabs[index].GetComponent<Pet>().Price);
+        int price = petPrefabs[index].GetComponent<Pet>().Price;
+
+        if (!CurrencyManager.Instance.HasEnoughCurrency(price))
+        {
+            Debug.Log("Not enough currency!");
+            return false;
+        }
+
+        CurrencyManager.Instance.RemoveCurrency(price);
         GameManager.Instance.currentPurchasedPetPrefab = petPrefabs[index];
+        return true;
     }
 }
