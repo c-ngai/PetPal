@@ -14,6 +14,15 @@ public class SoundManager : MonoBehaviour
     public AudioClip gameOverSound;
     public AudioClip countdownSound;
 
+    [Header("Feeding")]
+    public AudioClip eatGoodSound;
+    public AudioClip eatBadSound;
+    public AudioClip feedingCompleteSound;
+
+    [Header("Cleaning")]
+    public AudioClip cleaningLoopSound;
+    public AudioClip cleaningCompleteSound;
+
     void Awake()
     {
         // Standard Singleton setup to persist across scene loads
@@ -33,22 +42,34 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    // Subscribe to events when this script is turned on
     void OnEnable()
     {
         GameEvents.OnPetJump += PlayJumpSound;
         GameEvents.OnBonusScored += PlayBonusSound;
         GameEvents.OnGameOver += PlayGameOverSound;
         GameEvents.OnGameCountdown += PlayGameCountdown;
+
+        GameEvents.OnFeedingGood += PlayEatGood;
+        GameEvents.OnFeedingBad += PlayEatBad;
+        GameEvents.OnFeedingComplete += PlayFeedingComplete;
+
+        GameEvents.OnCleaning += PlayCleaningTick;
+        GameEvents.OnCleaningComplete += PlayCleaningComplete;
     }
 
-    // ALWAYS unsubscribe when disabled to prevent memory leaks
     void OnDisable()
     {
         GameEvents.OnPetJump -= PlayJumpSound;
         GameEvents.OnBonusScored -= PlayBonusSound;
         GameEvents.OnGameOver -= PlayGameOverSound;
         GameEvents.OnGameCountdown -= PlayGameCountdown;
+
+        GameEvents.OnFeedingGood -= PlayEatGood;
+        GameEvents.OnFeedingBad -= PlayEatBad;
+        GameEvents.OnFeedingComplete -= PlayFeedingComplete;
+
+        GameEvents.OnCleaning -= PlayCleaningTick;
+        GameEvents.OnCleaningComplete -= PlayCleaningComplete;
     }
 
     // Event Handler Methods
@@ -57,6 +78,13 @@ public class SoundManager : MonoBehaviour
     private void PlayGameOverSound() { PlayClip(gameOverSound); }
 
     private void PlayGameCountdown() { PlayClip(countdownSound); }
+
+    private void PlayEatGood() { PlayClip(eatGoodSound); }
+    private void PlayEatBad() { PlayClip(eatBadSound); }
+    private void PlayFeedingComplete() { PlayClip(feedingCompleteSound); }
+
+    private void PlayCleaningTick() { PlayClip(cleaningLoopSound); }
+    private void PlayCleaningComplete() { PlayClip(cleaningCompleteSound); }
 
     // The core play method
     private void PlayClip(AudioClip clip)

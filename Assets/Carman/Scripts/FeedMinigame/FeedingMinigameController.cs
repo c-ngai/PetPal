@@ -16,6 +16,7 @@ public class FeedMinigameController : MonoBehaviour
     private Coroutine lifetimeRoutine;
     private bool isConsuming;
 
+
     public void StartFeed()
     {
         StopFeed();
@@ -111,9 +112,15 @@ public class FeedMinigameController : MonoBehaviour
 
         // Apply effect
         if (isFood)
+        {
             stats.BoostHunger(25f);
+            GameEvents.OnFeedingGood?.Invoke();
+        }
         else
+        {
             stats.BoostHunger(-15f);
+            GameEvents.OnFeedingBad?.Invoke();
+        }
 
         // Destroy current item
         if (currentItem != null)
@@ -146,7 +153,10 @@ public class FeedMinigameController : MonoBehaviour
 
         PetController pet = FindFirstObjectByType<PetController>();
         if (pet != null)
+        {
             pet.FinishingFeeding();
+            GameEvents.OnFeedingComplete?.Invoke();
+        }
 
         GameManager.Instance.SetState(GameManager.GameState.RoomSelected);
     }

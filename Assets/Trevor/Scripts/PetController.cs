@@ -18,7 +18,6 @@ public class PetController : MonoBehaviour
     public float walkSpeed = 2f;
     public float approachDistance = 2f;
 
-    // ================= CLEANING (UNCHANGED CORE LOGIC) =================
     [Header("Cleaning Settings")]
     public float cleanDuration = 3f;
     private float cleanProgress = 0f;
@@ -30,7 +29,6 @@ public class PetController : MonoBehaviour
     [SerializeField] private Transform debrisRoot;
     private List<GameObject> debrisObjects = new List<GameObject>();
 
-    // ================= FEEDING =================
     [Header("Feeding Settings")]
     public FeedMinigameController feedGame;
 
@@ -81,13 +79,11 @@ public class PetController : MonoBehaviour
 
         UpdateDebrisVisuals();
 
-        HandleFeedMode();           // feed state machine
-        HandleFeedMovement();       // feed movement (input gated)
+        HandleFeedMode();
+        HandleFeedMovement();
 
-        HandleCleanModeTransitions(); // CLEAN LEFT UNCHANGED STRUCTURE
+        HandleCleanModeTransitions();
     }
-
-    // ================= INPUT =================
 
     private void HandlePlay()
     {
@@ -114,13 +110,10 @@ public class PetController : MonoBehaviour
         isFeedInputActive = isActive;
     }
 
-    // ================= FEED SYSTEM (SAFE STATE MACHINE) =================
-
     private void HandleFeedMode()
     {
         bool inFeed = GameManager.Instance.CurrentState == GameState.FeedMode;
 
-        // ENTER FEED MODE
         if (inFeed && !isInFeedMode)
         {
             isInFeedMode = true;
@@ -133,7 +126,6 @@ public class PetController : MonoBehaviour
                 feedGame.StartFeed();
         }
 
-        // EXIT FEED MODE
         if (!inFeed && isInFeedMode)
         {
             isInFeedMode = false;
@@ -146,14 +138,12 @@ public class PetController : MonoBehaviour
         }
     }
 
-    // ONLY MOVES WHEN INPUT HELD
     private void HandleFeedMovement()
     {
         if (!isInFeedMode) return;
 
         Vector3 target = isFeedInputActive ? feedTargetPos : homePosition;
 
-        // IMPORTANT: always allow return home even if slightly offset
         transform.position = Vector3.MoveTowards(
             transform.position,
             target,
@@ -168,13 +158,10 @@ public class PetController : MonoBehaviour
         currentState = PetState.Idle;
     }
 
-    // ================= CLEANING (UNCHANGED LOGIC) =================
-
     private void HandleCleanModeTransitions()
     {
         if (GameManager.Instance.CurrentState != GameState.CleanMode)
         {
-            // HARD EXIT CLEAN MODE RESET (fixes stuck bug)
             if (currentState == PetState.Cleaning)
                 currentState = PetState.Idle;
 
@@ -200,7 +187,10 @@ public class PetController : MonoBehaviour
     private void RunCleaning()
     {
         if (currentState != PetState.Cleaning)
+        {
             currentState = PetState.Cleaning;
+            GameEvents.OnCleaning?.Invoke();
+        }
 
         cleanProgress += Time.deltaTime;
 
@@ -226,6 +216,8 @@ public class PetController : MonoBehaviour
 
         Debug.Log("Pet cleaned!");
 
+        GameEvents.OnCleaningComplete?.Invoke();
+
         GameManager.Instance.SetState(GameState.RoomSelected);
     }
 
@@ -238,8 +230,6 @@ public class PetController : MonoBehaviour
         if (currentState == PetState.Cleaning)
             currentState = PetState.Idle;
     }
-
-    // ================= PLAY =================
 
     private IEnumerator PlayRoutine()
     {
@@ -262,8 +252,6 @@ public class PetController : MonoBehaviour
         transform.position = homePosition;
         currentState = PetState.Idle;
     }
-
-    // ================= VISUALS =================
 
     private void UpdateDebrisVisuals()
     {
