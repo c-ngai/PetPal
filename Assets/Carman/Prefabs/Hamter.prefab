@@ -182,7 +182,7 @@ MonoBehaviour:
   maxHunger: 100
   maxCleanliness: 100
   maxLove: 100
-  depletionRate: 2
+  depletionRate: 0.5
 --- !u!114 &4959329193316730958
 MonoBehaviour:
   m_ObjectHideFlags: 0

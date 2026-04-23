@@ -182,7 +182,7 @@ MonoBehaviour:
   maxHunger: 100
   maxCleanliness: 100
   maxLove: 100
-  depletionRate: 2
+  depletionRate: 0.5
 --- !u!114 &4959329193316730958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +273,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.512, y: 0.512}
+  m_Size: {x: 0.34133333, y: 0.34133333}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
