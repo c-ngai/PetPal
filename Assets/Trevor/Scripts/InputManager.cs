@@ -26,6 +26,9 @@ public class InputManager : MonoBehaviour
     private bool previousArduinoTilt = false;
 
     private bool holdingButton = false;
+    public bool continuousSound = false;
+    private float _timer = 0;
+    private float _contCheck = .2f;
 
     void Awake()
     {
@@ -104,12 +107,21 @@ public class InputManager : MonoBehaviour
             }
             previousArduinoTilt = currentTilt;
 
-
+            if (arduinoReader.soundDetected && GameManager.Instance.IsActionMode())
+            {
+                HandleCleanPressed();
+            }
             if (arduinoReader.micPressed)
             {
                 HandleCleanPressed();
                 arduinoReader.ConsumeSoundTrigger();
                 holdingButton = true;
+            }
+            if (arduinoReader.soundTriggered)
+            {
+                HandleCleanSound();
+                arduinoReader.ConsumeSoundTrigger();
+                continuousSound = false;
             }
             if (arduinoReader.distPressed)
             {
@@ -132,7 +144,6 @@ public class InputManager : MonoBehaviour
 
         bool ardFeeding = arduinoReader != null &&
                           arduinoReader.enableArduino &&
-                          arduinoReader.distPressed &&
                           arduinoReader.smoothedDistance > 0f &&
                           arduinoReader.smoothedDistance <= 10f;
 
@@ -167,6 +178,11 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    private void HandleCleanSound()
+    {
+        OnCleanAction?.Invoke();
+    }
+
     private void HandleFeedPressed()
     {
         if (!GameManager.Instance.IsActionMode())
@@ -174,10 +190,9 @@ public class InputManager : MonoBehaviour
             Debug.Log("CONFIRM selection");
             OnConfirmSelect?.Invoke();
         }
-    }
-
-    private void HandleJunp()
-    {
-
+        else
+        {
+            OnFeedAction?.Invoke(true);
+        }
     }
 }
