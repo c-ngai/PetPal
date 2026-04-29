@@ -30,11 +30,28 @@ public class PlayMiniGameManager : MonoBehaviour
     private int coinsEarned = 0;
     private bool gameActive = false;
 
+    // NEW: Tracks if the player is allowed to collect a bonus
+    private bool canCollectBonus = false;
+
     private Coroutine spawnCoroutine;
 
     void OnEnable()
     {
         Time.timeScale = 1f;
+        // Listen for the jump event to reset our bonus tracker
+        GameEvents.OnPetJump += ResetBonusTracker;
+    }
+
+    void OnDisable()
+    {
+        // Always clean up events!
+        GameEvents.OnPetJump -= ResetBonusTracker;
+    }
+
+    private void ResetBonusTracker()
+    {
+        // The pet jumped, so they are allowed to earn a bonus again!
+        canCollectBonus = true;
     }
 
     void Start()
@@ -90,12 +107,18 @@ public class PlayMiniGameManager : MonoBehaviour
 
         if (coinsText != null)
         {
-            coinsText.text =  coinsEarned.ToString() + " Beans Earned";
+            coinsText.text = coinsEarned.ToString() + " Beans Earned";
         }
     }
 
     public void AddBonusScore(float amount)
     {
+        // FIX: If they already collected a bonus this jump, ignore any extras
+        if (!canCollectBonus) return;
+
+        // Lock it out so they can't get another one until they jump again
+        canCollectBonus = false;
+
         score += amount;
 
         GameEvents.OnBonusScored?.Invoke();
