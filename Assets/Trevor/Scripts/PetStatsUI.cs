@@ -15,6 +15,14 @@ public class PetStatsUI : MonoBehaviour
     public Color cleanlinessColor = Color.white;
     public Color loveColor = Color.white;
 
+    [Header("Flashing Settings")]
+    [Tooltip("The color it flashes when on the last chunk.")]
+    public Color criticalFlashColor = Color.red;
+    [Tooltip("How fast it flashes when the last chunk is completely full.")]
+    public float minFlashSpeed = 5f;
+    [Tooltip("How fast it flashes when the stat is almost at 0.")]
+    public float maxFlashSpeed = 25f;
+
     [Header("Prefabs & Settings")]
     [Tooltip("The single white UI Image prefab that represents one chunk.")]
     public GameObject statChunkPrefab;
@@ -63,7 +71,7 @@ public class PetStatsUI : MonoBehaviour
             cleanlinessChunks.Clear();
             loveChunks.Clear();
 
-            Debug.Log("No pet in room — hiding stats UI");
+            Debug.Log("No pet in room: hiding stats UI");
         }
     }
 
@@ -81,13 +89,13 @@ public class PetStatsUI : MonoBehaviour
 
         if (currentPet != null)
         {
-            UpdateStatBar(currentPet.hunger, hungerChunks);
-            UpdateStatBar(currentPet.cleanliness, cleanlinessChunks);
-            UpdateStatBar(currentPet.love, loveChunks);
+            // We now pass the default color in so it knows what to revert to when not flashing
+            UpdateStatBar(currentPet.hunger, hungerChunks, hungerColor);
+            UpdateStatBar(currentPet.cleanliness, cleanlinessChunks, cleanlinessColor);
+            UpdateStatBar(currentPet.love, loveChunks, loveColor);
         }
     }
 
-    // Notice we added 'Color chunkColor' to the parameters here
     private void BuildStatBar(float maxStat, Transform container, List<GameObject> chunkList, Color chunkColor)
     {
         // Clear old chunks
@@ -115,14 +123,45 @@ public class PetStatsUI : MonoBehaviour
         }
     }
 
-    private void UpdateStatBar(float currentStat, List<GameObject> chunkList)
+    private void UpdateStatBar(float currentStat, List<GameObject> chunkList, Color defaultColor)
     {
         int activeChunks = Mathf.CeilToInt(currentStat / pointsPerChunk);
 
         for (int i = 0; i < chunkList.Count; i++)
         {
-            if (chunkList[i] != null)
-                chunkList[i].SetActive(i < activeChunks);
+            if (chunkList[i] == null) continue;
+
+            bool isActive = i < activeChunks;
+            chunkList[i].SetActive(isActive);
+
+            // Handle the color and flashing logic
+            if (isActive)
+            {
+                Image chunkImage = chunkList[i].GetComponent<Image>();
+                if (chunkImage != null)
+                {
+                    // If we are on the very last chunk
+                    if (activeChunks == 1 && i == 0)
+                    {
+                        // Calculate percentage of the last chunk remaining (0.0 to 1.0)
+                        float percentageLeft = Mathf.Clamp01(currentStat / pointsPerChunk);
+
+                        // Speed up as percentage drops closer to 0
+                        float currentSpeed = Mathf.Lerp(maxFlashSpeed, minFlashSpeed, percentageLeft);
+
+                        // Create a pulsing value between 0 and 1
+                        float pulse = (Mathf.Sin(Time.time * currentSpeed) + 1f) / 2f;
+
+                        // Blend between the critical color and the default color
+                        chunkImage.color = Color.Lerp(criticalFlashColor, defaultColor, pulse);
+                    }
+                    else
+                    {
+                        // Reset back to normal color just in case it was flashing previously
+                        chunkImage.color = defaultColor;
+                    }
+                }
+            }
         }
     }
 }
