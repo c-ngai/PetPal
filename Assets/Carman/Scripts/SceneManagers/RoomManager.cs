@@ -38,17 +38,18 @@ public class RoomManager : SelectionList
             newPet.cleanliness = 100f;
             newPet.love = 100f;
 
-            // FIX: Save the permanent data as a hatched Pet, not an Egg!
+            // Save the permanent data as a hatched Pet, not an Egg
             newPet.stage = Pet.PetStage.Pet;
 
-            // 2. Set the critical timestamp right now!
+            // 2. Set the critical timestamp right now
             newPet.lastSavedTime = System.DateTime.UtcNow.Ticks;
 
             // 3. Save it to the GameManager dictionary using the roomID
             GameManager.Instance.roomPets[room.RoomID] = newPet;
 
-            // 4. Actually spawn/place it visually in the room
-            room.PlacePet(petPrefab);
+            // FIX: Removed room.PlacePet(petPrefab) here. 
+            // The scene switches instantly, so placing it here causes it to be destroyed mid-animation.
+            // GameManager handles this in the new scene now.
 
             return true; // Success!
         }
@@ -82,6 +83,9 @@ public class RoomManager : SelectionList
                     // Only turn off placement mode if they successfully moved in
                     GameManager.Instance.IsPlacingPet = false;
                     GameManager.Instance.currentPurchasedPetPrefab = null;
+
+                    // FIX: Tell the GameManager to trigger the Hatch animation in the new scene!
+                    GameManager.Instance.justPlacedNewPet = true;
                 }
                 else
                 {

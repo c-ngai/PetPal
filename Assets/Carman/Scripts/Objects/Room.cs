@@ -39,7 +39,11 @@ public class Room : MonoBehaviour
         PetStats stats = currentPetInstance.GetComponent<PetStats>();
         PetController controller = currentPetInstance.GetComponent<PetController>();
 
-        pet.SetStage(Pet.PetStage.Pet); // Hatch when placed
+        // FIX: Explicitly call the Hatch coroutine instead of setting the stage
+        if (pet != null)
+        {
+            pet.Hatch();
+        }
 
         // FIX 2: We removed the PetData creation here. RoomManager handles the data and timestamp now.
         // We just need to tell the stats script to wake up and bind to this room.

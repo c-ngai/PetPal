@@ -23,19 +23,20 @@ public class GameManager : MonoBehaviour
     public Stack<GameState> PreviousState;
     public bool IsPlacingPet;
 
+    // NEW: A flag to tell the next scene to play the hatch animation
+    public bool justPlacedNewPet = false;
+
     public SelectionList currentList;
 
-    // IDs instead of scene objects
     public string currentRoomID;
     public string currentBuildingID;
 
     public GameObject currentPurchasedPetPrefab;
 
     [Header("Minigame Handoff Data")]
-    public string activeMinigameRoomID; // Knows WHICH pet to give stats to
-    public Sprite activeMinigameSprite; // Knows WHAT the pet looks like
+    public string activeMinigameRoomID;
+    public Sprite activeMinigameSprite;
 
-    // Persistent mapping of roomID -> pet
     public Dictionary<string, PetData> roomPets = new Dictionary<string, PetData>();
 
     void Awake()
@@ -81,7 +82,17 @@ public class GameManager : MonoBehaviour
                 {
                     if (room.RoomID == currentRoomID)
                     {
-                        room.SpawnPet();
+                        // FIX: Check if we just placed this pet to trigger the Hatch coroutine
+                        if (justPlacedNewPet)
+                        {
+                            room.PlacePet(roomPets[currentRoomID].petPrefab);
+                            justPlacedNewPet = false; // Reset the flag immediately
+                        }
+                        else
+                        {
+                            // Otherwise, just spawn it instantly as an adult
+                            room.SpawnPet();
+                        }
                         break;
                     }
                 }
