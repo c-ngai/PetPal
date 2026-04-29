@@ -53,7 +53,10 @@ public class Pet : MonoBehaviour
             StartCoroutine(HatchRoutine());
         }
     }
-
+    public Sprite GetEggSprite()
+    {
+        return eggSprite;
+    }
     void UpdateSprite()
     {
         if (currentStage == PetStage.Egg)

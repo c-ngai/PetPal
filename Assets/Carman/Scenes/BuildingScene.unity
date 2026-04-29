@@ -671,6 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   arduinoReader: {fileID: 108990235}
   inputAsset: {fileID: -944628639613478452, guid: 79af5b5af16d479498558b83d4733ab6, type: 3}
+  continuousSound: 0
 --- !u!4 &351858029
 Transform:
   m_ObjectHideFlags: 0
@@ -865,6 +866,63 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488160366}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &637313033
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.04171
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.75084
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8115697244480858331, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8852802964207638498, guid: db51d19c603047144b401f668511e2c0, type: 3}
+      propertyPath: m_Name
+      value: Indicator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: db51d19c603047144b401f668511e2c0, type: 3}
 --- !u!4 &779433966 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5499376118136893998, guid: 9426cebf69b8cf945887827d8c5cf5b4, type: 3}
@@ -927,6 +985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   CurrentState: 0
   IsPlacingPet: 0
+  justPlacedNewPet: 0
   currentList: {fileID: 0}
   currentRoomID: 
   currentBuildingID: 
@@ -2016,3 +2075,4 @@ SceneRoots:
   - {fileID: 1170397246}
   - {fileID: 1690181251}
   - {fileID: 2031837829}
+  - {fileID: 637313033}

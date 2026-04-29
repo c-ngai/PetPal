@@ -13,6 +13,10 @@ public class ShopManager : SelectionList
 
     [SerializeField] private Highlightable backButton;
 
+    [Header("UI Indicators")]
+    public GameObject openHandPrefab;
+    public Vector3 handOffset = new Vector3(0, 1.5f, 0);
+
     void Awake()
     {
         Instance = this;
@@ -38,6 +42,14 @@ public class ShopManager : SelectionList
             {
                 pet.SetStage(Pet.PetStage.Egg);
             }
+
+            // Spawn the open hand above each display egg
+            if (openHandPrefab != null)
+            {
+                GameObject hand = Instantiate(openHandPrefab, petObj.transform.position + handOffset, Quaternion.identity);
+                // Make it a child of the egg so it moves/scales with it if needed
+                hand.transform.SetParent(petObj.transform);
+            }
         }
 
         UpdateHighlight();
@@ -59,7 +71,6 @@ public class ShopManager : SelectionList
             GameManager.Instance.SetState(GameManager.GameState.BuildingSelection);
         }
     }
-
 
     public bool BuyPet(int index)
     {
