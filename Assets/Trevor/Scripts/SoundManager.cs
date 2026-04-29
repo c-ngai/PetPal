@@ -5,8 +5,17 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    [Header("Audio Source")]
+    [Header("Audio Sources")]
     [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource bgmSource;
+
+    [Header("Volume Settings")]
+    [Range(0f, 1f)] public float bgmVolume = 0.35f; // Lowers the background music
+    [Range(0f, 2f)] public float jumpVolumeMultiplier = 1.5f; // Boosts the jump sound
+
+    [Header("Background Music")]
+    public AudioClip mainBGM;
+    public AudioClip minigameBGM;
 
     [Header("Audio Clips")]
     public AudioClip jumpSound;
@@ -25,7 +34,6 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        // Standard Singleton setup to persist across scene loads
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -35,11 +43,21 @@ public class SoundManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Auto-grab the AudioSource if it wasn't assigned in the inspector
         if (sfxSource == null)
         {
             sfxSource = GetComponent<AudioSource>();
         }
+
+        if (bgmSource == null)
+        {
+            bgmSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+
+    void Start()
+    {
+        // Start the normal music when the game boots up
+        PlayMainBGM();
     }
 
     void OnEnable()
@@ -72,8 +90,53 @@ public class SoundManager : MonoBehaviour
         GameEvents.OnCleaningComplete -= PlayCleaningComplete;
     }
 
+    // Music Control Methods
+    public void PlayMainBGM()
+    {
+        // Don't restart the song if it is already playing
+        if (bgmSource != null && bgmSource.clip != mainBGM)
+        {
+            PlayBGM(mainBGM);
+        }
+    }
+
+    public void PlayMinigameBGM()
+    {
+        if (bgmSource != null && bgmSource.clip != minigameBGM)
+        {
+            PlayBGM(minigameBGM);
+        }
+    }
+
+    private void PlayBGM(AudioClip clip)
+    {
+        if (clip != null && bgmSource != null)
+        {
+            bgmSource.clip = clip;
+            bgmSource.volume = bgmVolume; // Apply the reduced volume here
+            bgmSource.loop = true;
+            bgmSource.Play();
+        }
+    }
+
+    public void StopBGM()
+    {
+        if (bgmSource != null)
+        {
+            bgmSource.Stop();
+        }
+    }
+
     // Event Handler Methods
-    private void PlayJumpSound() { PlayClip(jumpSound); }
+    private void PlayJumpSound()
+    {
+        if (jumpSound != null && sfxSource != null)
+        {
+            // Use the volume multiplier specifically for the jump sound
+            sfxSource.PlayOneShot(jumpSound, jumpVolumeMultiplier);
+        }
+    }
+
     private void PlayBonusSound() { PlayClip(bonusSound); }
     private void PlayGameOverSound() { PlayClip(gameOverSound); }
 
@@ -91,7 +154,6 @@ public class SoundManager : MonoBehaviour
     {
         if (clip != null && sfxSource != null)
         {
-            // PlayOneShot allows multiple sounds to overlap without cutting each other off
             sfxSource.PlayOneShot(clip);
         }
     }

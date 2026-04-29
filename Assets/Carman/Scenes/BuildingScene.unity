@@ -1510,6 +1510,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundManager
   sfxSource: {fileID: 2031837828}
+  bgmSource: {fileID: 0}
+  mainBGM: {fileID: 8300000, guid: 2e4a082872894b645b611afe5b8dc770, type: 3}
+  minigameBGM: {fileID: 8300000, guid: 5c9791fe750f1df488e144e46a03bc61, type: 3}
   jumpSound: {fileID: 8300000, guid: 73b40af7152a02e49a192b730ee8c509, type: 3}
   bonusSound: {fileID: 8300000, guid: fe6b4f3c8078dcc48810d6447fa73792, type: 3}
   gameOverSound: {fileID: 8300000, guid: 9e59f2dbee09f70448f67200a8617384, type: 3}

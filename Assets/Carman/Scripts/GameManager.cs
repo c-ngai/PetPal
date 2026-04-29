@@ -184,15 +184,19 @@ public class GameManager : MonoBehaviour
         {
             case GameState.BuildingSelection:
                 SceneManager.LoadScene("BuildingScene");
+                SoundManager.Instance?.PlayMainBGM();
                 break;
 
             case GameState.RoomSelection:
                 SceneManager.LoadScene(currentBuildingID);
+                SoundManager.Instance?.PlayMainBGM();
                 break;
 
             case GameState.RoomSelected:
                 SceneManager.LoadScene(currentRoomID);
+                SoundManager.Instance?.PlayMainBGM();
                 break;
+
             case GameState.FeedMode:
             case GameState.CleanMode:
                 // stay in the same scene, just change mode
@@ -200,14 +204,19 @@ public class GameManager : MonoBehaviour
 
             case GameState.PetPurchasing:
                 SceneManager.LoadScene("ShopBuilding");
+                SoundManager.Instance?.PlayMainBGM();
                 break;
 
             case GameState.PlayMode:
                 SceneManager.LoadScene("PlayScene");
                 currentList = null;
+                // Swap to the minigame music!
+                SoundManager.Instance?.PlayMinigameBGM();
                 break;
+
             case GameState.GameOver:
                 SceneManager.LoadScene("GameOverScene");
+                SoundManager.Instance?.PlayMainBGM();
                 break;
         }
     }
