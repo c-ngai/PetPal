@@ -46,7 +46,7 @@ public class SelectionList : MonoBehaviour
         currentIndex = (currentIndex % items.Count + items.Count) % items.Count;
     }
 
-    public void UpdateHighlight()
+    public virtual void UpdateHighlight()
     {
         for (int i = 0; i < items.Count; i++)
         {

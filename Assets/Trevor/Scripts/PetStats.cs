@@ -23,6 +23,13 @@ public class PetStats : MonoBehaviour
 
     private bool hasTriggeredGameOver = false;
 
+    public static event Action<string, string> OnPetWarning;
+    // (roomID, message)
+    private bool hungerWarned;
+    private bool cleanWarned;
+    private bool loveWarned;
+
+
     // The Room will call this right after spawning the pet
     public void Initialize(string assignedRoomID)
     {
@@ -41,10 +48,35 @@ public class PetStats : MonoBehaviour
         cleanliness = Mathf.Clamp(cleanliness - (depletionRate * Time.deltaTime), 0f, maxCleanliness);
         love = Mathf.Clamp(love - (depletionRate * Time.deltaTime), 0f, maxLove);
 
+        HandleWarnings();
+
         if (!hasTriggeredGameOver && (hunger <= 0f || cleanliness <= 0f || love <= 0f))
         {
             hasTriggeredGameOver = true;
             OnAnyPetStatDepleted?.Invoke(myRoomID);
+        }
+    }
+
+    private void HandleWarnings()
+    {
+        CheckWarning(hunger, 20f, ref hungerWarned, "Pet is hungry!");
+        CheckWarning(cleanliness, 20f, ref cleanWarned, "Pet is dirty!");
+        CheckWarning(love, 20f, ref loveWarned, "Pet feels lonely!");
+    }
+
+    private void CheckWarning(float value, float threshold, ref bool hasWarned, string message)
+    {
+        if (value <= threshold)
+        {
+            if (!hasWarned)
+            {
+                OnPetWarning?.Invoke(myRoomID, message);
+                hasWarned = true;
+            }
+        }
+        else
+        {
+            hasWarned = false;
         }
     }
 

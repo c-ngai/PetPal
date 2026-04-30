@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
 
         SetState(GameState.BuildingSelection);
     }
+    
+    void Start()
+    {
+        UIPopupManager.Instance.ShowTemporaryTimed("Go buy a pet!");
+    }
 
     void OnDestroy()
     {
@@ -245,5 +250,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("BuildingScene");
 
         SoundManager.Instance?.PlayMainBGM();
+
+        UIPopupManager.Instance.ResetUIState();
     }
 }

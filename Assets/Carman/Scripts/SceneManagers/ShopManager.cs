@@ -16,6 +16,7 @@ public class ShopManager : SelectionList
     [Header("UI Indicators")]
     public GameObject openHandPrefab;
     public Vector3 handOffset = new Vector3(0, 1.5f, 0);
+    private string lastPopupMessage;
 
     void Awake()
     {
@@ -31,6 +32,16 @@ public class ShopManager : SelectionList
         items.Add(backButton);
 
         currentIndex = 0;
+    }
+
+    void OnEnable()
+    {
+        UIPopupManager.Instance.SetContextActive(true);
+    }
+
+    void OnDisable()
+    {
+        UIPopupManager.Instance.SetContextActive(false);
     }
 
     void Start()
@@ -55,8 +66,17 @@ public class ShopManager : SelectionList
         UpdateHighlight();
     }
 
+    public override void UpdateHighlight()
+    {
+        base.UpdateHighlight();
+        UpdatePricePopup();
+    }
+
     protected override void OnItemSelected(int index)
     {
+        UIPopupManager.Instance.Hide();
+        lastPopupMessage = null;
+
         if (index == shopDisplayPets.Count)
         {
             GameManager.Instance.GoBack();
@@ -79,12 +99,40 @@ public class ShopManager : SelectionList
         if (!CurrencyManager.Instance.HasEnoughCurrency(price))
         {
             SoundManager.Instance.PlayError();
-            Debug.Log("Not enough currency!");
+            UIPopupManager.Instance.ShowPersistent("Not enough currency!");
             return false;
         }
 
         CurrencyManager.Instance.RemoveCurrency(price);
         GameManager.Instance.currentPurchasedPetPrefab = petPrefabs[index];
         return true;
+    }
+
+    void UpdatePricePopup()
+    {
+        int index = GetCurrentIndex();
+
+        if (index >= shopDisplayPets.Count)
+        {
+            UIPopupManager.Instance.Hide();
+            lastPopupMessage = null;
+            return;
+        }
+
+        Pet pet = petPrefabs[index].GetComponent<Pet>();
+
+        if (pet == null)
+        {
+            UIPopupManager.Instance.Hide();
+            lastPopupMessage = null;
+            return;
+        }
+
+        string msg = $"Cost: {pet.Price}";
+
+        if (msg == lastPopupMessage) return;
+
+        lastPopupMessage = msg;
+        UIPopupManager.Instance.ShowPersistent(msg);
     }
 }
