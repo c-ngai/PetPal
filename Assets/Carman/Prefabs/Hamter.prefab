@@ -217,6 +217,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pet
   eggSprite: {fileID: 21300000, guid: bb255c95d9db4d44d8ecef93f1317e8d, type: 3}
   petSprite: {fileID: 21300000, guid: d2b54ddb7a06d6341be4a14734d4ae17, type: 3}
+  wiggleDuration: 1.5
+  wiggleSpeed: 25
+  wiggleMagnitude: 15
+  growDuration: 0.5
   currentStage: 0
   Price: 5
 --- !u!212 &3486458459921659215
@@ -290,8 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a06292514767cf4483e3ac0b04469c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
-  outlineColor: {r: 0, g: 0, b: 0, a: 0.65}
-  outlineScale: 0
+  outlineColor: {r: 0, g: 0, b: 0, a: 1}
+  outlineScale: 1
   useScaleHighlight: 1
   highlightScale: 1.1
 --- !u!65 &2348890048091635187

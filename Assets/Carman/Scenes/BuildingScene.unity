@@ -265,7 +265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -319.94998, y: 191.24}
+  m_AnchoredPosition: {x: 355.04996, y: 167.23999}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88114321
@@ -1328,7 +1328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -364.40997, y: 196.18}
+  m_AnchoredPosition: {x: 310.58997, y: 172.17998}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1600425179
@@ -1403,7 +1403,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -343, y: 197}
+  m_AnchoredPosition: {x: 332, y: 173}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1608133779
@@ -1886,6 +1886,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4965259442335780301, guid: d2f171b40fcd0944eafb5f853f0d5723, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965259442335780301, guid: d2f171b40fcd0944eafb5f853f0d5723, type: 3}
       propertyPath: outlineColor.b
       value: 0.4156863
       objectReference: {fileID: 0}
@@ -1957,6 +1961,10 @@ PrefabInstance:
     - target: {fileID: 1974045321128050838, guid: ac6ac55a8ec0c3c4a93261117d87e4ab, type: 3}
       propertyPath: outlineScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1974045321128050838, guid: ac6ac55a8ec0c3c4a93261117d87e4ab, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 1974045321128050838, guid: ac6ac55a8ec0c3c4a93261117d87e4ab, type: 3}
       propertyPath: useScaleHighlight
@@ -2068,6 +2076,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7971765592603207537, guid: 4a1cbcba1d9e11a4c94cfc0eca90d85e, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971765592603207537, guid: 4a1cbcba1d9e11a4c94cfc0eca90d85e, type: 3}
       propertyPath: useScaleHighlight
       value: 1
       objectReference: {fileID: 0}
@@ -2131,6 +2143,10 @@ PrefabInstance:
     - target: {fileID: 6105812240643351031, guid: 9426cebf69b8cf945887827d8c5cf5b4, type: 3}
       propertyPath: outlineScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105812240643351031, guid: 9426cebf69b8cf945887827d8c5cf5b4, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 6105812240643351031, guid: 9426cebf69b8cf945887827d8c5cf5b4, type: 3}
       propertyPath: useScaleHighlight

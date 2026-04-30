@@ -152,6 +152,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3275969974429563834, guid: 60144b870c7b7cf418b18be8e522a450, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3275969974429563834, guid: 60144b870c7b7cf418b18be8e522a450, type: 3}
       propertyPath: highlightZOffset
       value: -0.1
       objectReference: {fileID: 0}
@@ -547,7 +551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 29, y: -2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &875071066
@@ -570,10 +574,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back
+  m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7e4865acb7c12094eb7c7a7e032c6a85, type: 2}
+  m_sharedMaterial: {fileID: -4138697911988660924, guid: 7e4865acb7c12094eb7c7a7e032c6a85, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -833,6 +837,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 376422421969741341, guid: 9d4b2e96930b46643ab40cce23b45687, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 376422421969741341, guid: 9d4b2e96930b46643ab40cce23b45687, type: 3}
       propertyPath: highlightZOffset
       value: -0.1
       objectReference: {fileID: 0}
@@ -854,7 +862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677021863516460405, guid: 9d4b2e96930b46643ab40cce23b45687, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.15
+      value: -6.17
       objectReference: {fileID: 0}
     - target: {fileID: 4677021863516460405, guid: 9d4b2e96930b46643ab40cce23b45687, type: 3}
       propertyPath: m_LocalRotation.w
@@ -978,7 +986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.15
+      value: -6.201
       objectReference: {fileID: 0}
     - target: {fileID: 660029517686802308, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1023,6 +1031,10 @@ PrefabInstance:
     - target: {fileID: 5568070626337205808, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: outlineScale
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5568070626337205808, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
+      propertyPath: highlightScale
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 5568070626337205808, guid: e4c0dbe39d0d162409e0cf1b10f284ad, type: 3}
       propertyPath: highlightZOffset
@@ -1482,8 +1494,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -105, y: 37}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -695, y: 68}
+  m_SizeDelta: {x: 161.2873, y: 90.286}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2125131175
 MonoBehaviour:
@@ -1498,9 +1510,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Highlightable
   outlineColor: {r: 0, g: 0, b: 0, a: 0.65}
-  outlineScale: 1.08
+  outlineScale: 0
   useScaleHighlight: 1
-  highlightScale: 1.1
+  highlightScale: 1.2
 --- !u!212 &2125131176
 SpriteRenderer:
   serializedVersion: 2
@@ -1624,8 +1636,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 58b28cb65fa0fab46a9ecd1dbe146c5d, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

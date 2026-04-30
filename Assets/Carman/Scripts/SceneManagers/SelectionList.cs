@@ -42,7 +42,8 @@ public class SelectionList : MonoBehaviour
     private void ClampIndex()
     {
         if (items.Count == 0) return;
-        currentIndex = Mathf.Clamp(currentIndex, 0, items.Count - 1);
+
+        currentIndex = (currentIndex % items.Count + items.Count) % items.Count;
     }
 
     public void UpdateHighlight()
