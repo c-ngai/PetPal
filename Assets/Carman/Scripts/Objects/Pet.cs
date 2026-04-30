@@ -50,6 +50,8 @@ public class Pet : MonoBehaviour
             // Capture the scale right now, AFTER the Room script has resized it
             originalScale = transform.localScale;
 
+            SoundManager.Instance.PlayHatching();
+
             StartCoroutine(HatchRoutine());
         }
     }

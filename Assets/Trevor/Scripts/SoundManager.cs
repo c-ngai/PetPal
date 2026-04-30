@@ -36,6 +36,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip arrowSound;
     public AudioClip selectionSound;
 
+    [Header("Misc")]
+    public AudioClip hatchingSound;
+    public AudioClip errorSound;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -155,6 +159,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayArrow() { PlayClip(arrowSound); }
     public void PlaySelection() { PlayClip(selectionSound); }
+    public void PlayHatching() { PlayClip(hatchingSound); }
+    public void PlayError() { PlayClip(errorSound); }
 
     // The core play method
     private void PlayClip(AudioClip clip)

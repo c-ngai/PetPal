@@ -78,6 +78,7 @@ public class ShopManager : SelectionList
 
         if (!CurrencyManager.Instance.HasEnoughCurrency(price))
         {
+            SoundManager.Instance.PlayError();
             Debug.Log("Not enough currency!");
             return false;
         }

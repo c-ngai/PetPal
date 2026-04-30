@@ -1602,6 +1602,8 @@ MonoBehaviour:
   cleaningCompleteSound: {fileID: 8300000, guid: 3b6af659b883bf24fa52f92c4664affa, type: 3}
   arrowSound: {fileID: 8300000, guid: a52d6f84dde9b0d4c9f7bcc61210d038, type: 3}
   selectionSound: {fileID: 8300000, guid: 753ec82eaaa9fcc4a8a36695dae918be, type: 3}
+  hatchingSound: {fileID: 8300000, guid: f44ce47271a377546bdb4683579e03b7, type: 3}
+  errorSound: {fileID: 8300000, guid: 39d7d5e4a367dc34fa44f635b478ba48, type: 3}
 --- !u!82 &2031837828
 AudioSource:
   m_ObjectHideFlags: 0
