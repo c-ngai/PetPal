@@ -562,6 +562,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7447161381727404623, guid: 3b18953b8eb98154eadeb6d3c43a850e, type: 3}
+      propertyPath: maxFlashSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8385532160890723628, guid: 3b18953b8eb98154eadeb6d3c43a850e, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -267

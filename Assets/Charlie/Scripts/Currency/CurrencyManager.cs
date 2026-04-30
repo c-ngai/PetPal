@@ -40,7 +40,7 @@ public class CurrencyManager : MonoBehaviour
         ChangeCurrencyUI();
     }
 
-    void ChangeCurrencyUI()
+    public void ChangeCurrencyUI()
     {
         tmp.text = $"{currency}";
     }

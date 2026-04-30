@@ -21,7 +21,7 @@ public class PetStatsUI : MonoBehaviour
     [Tooltip("How fast it flashes when the last chunk is completely full.")]
     public float minFlashSpeed = 5f;
     [Tooltip("How fast it flashes when the stat is almost at 0.")]
-    public float maxFlashSpeed = 25f;
+    public float maxFlashSpeed = 10f;
 
     [Header("Prefabs & Settings")]
     [Tooltip("The single white UI Image prefab that represents one chunk.")]

@@ -1,6 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviour
     public Stack<GameState> PreviousState;
     public bool IsPlacingPet;
 
-    // NEW: A flag to tell the next scene to play the hatch animation
     public bool justPlacedNewPet = false;
 
     public SelectionList currentList;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public string currentBuildingID;
 
     public GameObject currentPurchasedPetPrefab;
+    public bool gameOverRestartStarted;
 
     [Header("Minigame Handoff Data")]
     public string activeMinigameRoomID;
@@ -217,18 +218,32 @@ public class GameManager : MonoBehaviour
             case GameState.GameOver:
                 SceneManager.LoadScene("GameOverScene");
                 SoundManager.Instance?.PlayMainBGM();
+                gameOverRestartStarted = false;
                 break;
         }
     }
 
-    public void QuitGame()
+    public void RestartGameAfterDelay(float delay)
     {
-        Debug.Log("Quitting game...");
+        StartCoroutine(RestartRoutine(delay));
+    }
 
-        Application.Quit();
+    private IEnumerator RestartRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        // reset runtime data
+        PreviousState.Clear();
+        roomPets.Clear();
+        currentPurchasedPetPrefab = null;
+        justPlacedNewPet = false;
+        CurrencyManager.Instance.currency = 5;
+        CurrencyManager.Instance.ChangeCurrencyUI();
+
+        CurrentState = GameState.BuildingSelection;
+
+        SceneManager.LoadScene("BuildingScene");
+
+        SoundManager.Instance?.PlayMainBGM();
     }
 }

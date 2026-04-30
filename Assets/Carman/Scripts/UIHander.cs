@@ -1,9 +1,14 @@
 using UnityEngine;
 
-public class UIActions : MonoBehaviour
+public class UIHandler : MonoBehaviour
 {
-    public void QuitGame()
+    void Start()
     {
-        GameManager.Instance.QuitGame();
+        if (GameManager.Instance == null) return;
+
+        if (GameManager.Instance.gameOverRestartStarted) return;
+
+        GameManager.Instance.gameOverRestartStarted = true;
+        GameManager.Instance.RestartGameAfterDelay(3f);
     }
 }
