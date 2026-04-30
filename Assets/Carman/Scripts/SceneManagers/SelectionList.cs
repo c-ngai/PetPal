@@ -17,7 +17,7 @@ public class SelectionList : MonoBehaviour
         currentIndex--;
         ClampIndex();
         UpdateHighlight();
-        Debug.Log("Moved left to:  "+ items[currentIndex].name);
+        SoundManager.Instance?.PlayArrow();
     }
 
     public void MoveRight()
@@ -25,12 +25,12 @@ public class SelectionList : MonoBehaviour
         currentIndex++;
         ClampIndex();
         UpdateHighlight();
-        Debug.Log("Moved right to:  " + items[currentIndex].name);
+        SoundManager.Instance?.PlayArrow();
     }
 
     public void Confirm()
     {
-        Debug.Log("Selected: " + items[currentIndex].name);
+        SoundManager.Instance?.PlaySelection();
         OnItemSelected(currentIndex);
     }
 

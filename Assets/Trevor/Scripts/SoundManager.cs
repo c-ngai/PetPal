@@ -32,6 +32,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip cleaningLoopSound;
     public AudioClip cleaningCompleteSound;
 
+    [Header("Navigation")]
+    public AudioClip arrowSound;
+    public AudioClip selectionSound;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -148,6 +152,9 @@ public class SoundManager : MonoBehaviour
 
     private void PlayCleaningTick() { PlayClip(cleaningLoopSound); }
     private void PlayCleaningComplete() { PlayClip(cleaningCompleteSound); }
+
+    public void PlayArrow() { PlayClip(arrowSound); }
+    public void PlaySelection() { PlayClip(selectionSound); }
 
     // The core play method
     private void PlayClip(AudioClip clip)

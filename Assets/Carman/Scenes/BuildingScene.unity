@@ -1600,6 +1600,8 @@ MonoBehaviour:
   feedingCompleteSound: {fileID: 8300000, guid: 3b6af659b883bf24fa52f92c4664affa, type: 3}
   cleaningLoopSound: {fileID: 8300000, guid: b5154fc20b3e3544cb36d694c418f04f, type: 3}
   cleaningCompleteSound: {fileID: 8300000, guid: 3b6af659b883bf24fa52f92c4664affa, type: 3}
+  arrowSound: {fileID: 8300000, guid: a52d6f84dde9b0d4c9f7bcc61210d038, type: 3}
+  selectionSound: {fileID: 8300000, guid: 753ec82eaaa9fcc4a8a36695dae918be, type: 3}
 --- !u!82 &2031837828
 AudioSource:
   m_ObjectHideFlags: 0
